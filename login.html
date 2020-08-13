@@ -51,11 +51,11 @@
 										<form>
 										
 											<div class="form-group form-focus">
-												<input type="email" class="form-control floating" id="email1" required>
+												<input type="email" class="form-control floating" id="email1" required/>
 												<label class="focus-label">Email</label>
 											</div>
 											<div class="form-group form-focus">
-												<input type="password" class="form-control floating" id="password1" required>
+												<input type="password" class="form-control floating" id="password1" required/>
 												<label class="focus-label">Password</label>
 											</div>
 											
@@ -251,7 +251,8 @@
 
 function login() {
 	
-	
+
+
 var uname= document.getElementById("email1").value;
 var pword= document.getElementById("password1").value;
 
@@ -261,12 +262,15 @@ var pword= document.getElementById("password1").value;
 var settings = { 
   "url":"http://localhost/rocketmed/api/Users?usr="+uname+"&pwd="+pword, 
   "method": "GET",
+  "timeout": 3600,
+   async: false
    
-  "timeout": 3000
 }; 
+
  
 $.ajax(settings).done(function (response) { 
- console.log(response);
+
+console.log(response);
 
  if (response == null)
  {
@@ -278,23 +282,123 @@ $.ajax(settings).done(function (response) {
   }
   else if (response.indexOf("PAT") !== -1)
   { 
-  var pat_url= './appointments.html?userid='+encodeURIComponent(response);
-  document.location.href = pat_url;
+
+ var data = $.parseJSON(response);
+ var tokenid=data.access_token;
+			var patid=data.id;
+		/*var tokenid="N--ENZelSjjk0qHHxuAN4WcxIyPk0wnBt-f_EDx73XudLQDFIwVU9SMCKocmrwBEqsi-ynMe-E1aPXRUzhpiLWLf8Y3czlw9OqKoboZQY_NjVLOG5JFnnls2z9celTkIkIj5ZGmumkE8v-pAsJXhgMfdcFL2eWDJObCzNKqSMWCpdogpa7X0_baQKfxdpm0pW1vJ3kVy2FBguNeClwNUGFM8QzEZehgoFV6zXOXrWR3VRCPMYJ0jlzFYpNQvqhGogGko90hrLoqNtGpNWGMMtQ";
+		 var docid="DOC00000097" ;*/
+			localStorage.setItem("tokenid",tokenid);
+			localStorage.setItem("patid",patid);
+			alert(tokenid);
+  //var pat_url= './appointments.html?userid='+encodeURIComponent(response);
+  //document.location.href = pat_url;
+  var pat_url = 'doctor-profile-settings_completed.html';
+   window.open(pat_url, "_blank" );
   //window.open("user_profile.html?userid="+encodeURIComponent(response), "_self");
+
+
+
+
+  }
+
+  else if (response.indexOf("HOS") !== -1)
+  { 
+
+
+ var data = $.parseJSON(response);
+ var tokenid=data.access_token;
+			var hospital=data.id;
+		/*var tokenid="N--ENZelSjjk0qHHxuAN4WcxIyPk0wnBt-f_EDx73XudLQDFIwVU9SMCKocmrwBEqsi-ynMe-E1aPXRUzhpiLWLf8Y3czlw9OqKoboZQY_NjVLOG5JFnnls2z9celTkIkIj5ZGmumkE8v-pAsJXhgMfdcFL2eWDJObCzNKqSMWCpdogpa7X0_baQKfxdpm0pW1vJ3kVy2FBguNeClwNUGFM8QzEZehgoFV6zXOXrWR3VRCPMYJ0jlzFYpNQvqhGogGko90hrLoqNtGpNWGMMtQ";
+		 var docid="DOC00000097" ;*/
+			localStorage.setItem("tokenid",tokenid);
+			localStorage.setItem("hospital",hospital);
+			alert(tokenid);
+  //var pat_url= './appointments.html?userid='+encodeURIComponent(response);
+  //document.location.href = pat_url;
+  var hos_url = 'doctor-profile-settings_completed.html';
+   window.open(hos_url, "_blank" );
+  //window.open("user_profile.html?userid="+encodeURIComponent(response), "_self");
+
+
+
+
   }
   
+
    else if (response.indexOf("DOC") !== -1) 
   { 
-  var doc_url = './doctor-profile-settings.html?userid='+encodeURIComponent(response);
-   document.location.href = doc_url , target="_blank";
+
+// alert("Entered login);
+	  /*{
+  "access_token": "N--ENZelSjjk0qHHxuAN4WcxIyPk0wnBt-f_EDx73XudLQDFIwVU9SMCKocmrwBEqsi-ynMe-E1aPXRUzhpiLWLf8Y3czlw9OqKoboZQY_NjVLOG5JFnnls2z9celTkIkIj5ZGmumkE8v-pAsJXhgMfdcFL2eWDJObCzNKqSMWCpdogpa7X0_baQKfxdpm0pW1vJ3kVy2FBguNeClwNUGFM8QzEZehgoFV6zXOXrWR3VRCPMYJ0jlzFYpNQvqhGogGko90hrLoqNtGpNWGMMtQ",
+"token_type": "bearer",
+  "expires_in": 3599,
+  "id": "DOC00000097"
+}*/
+/*parsereponse and split tokenid,docid*/
+
+var data = $.parseJSON(response);
+  
+
+		  
+			alert(JSON.stringify(data));				
+          
+			var tokenid=data.access_token;
+			var docid=data.id;
+		/*var tokenid="N--ENZelSjjk0qHHxuAN4WcxIyPk0wnBt-f_EDx73XudLQDFIwVU9SMCKocmrwBEqsi-ynMe-E1aPXRUzhpiLWLf8Y3czlw9OqKoboZQY_NjVLOG5JFnnls2z9celTkIkIj5ZGmumkE8v-pAsJXhgMfdcFL2eWDJObCzNKqSMWCpdogpa7X0_baQKfxdpm0pW1vJ3kVy2FBguNeClwNUGFM8QzEZehgoFV6zXOXrWR3VRCPMYJ0jlzFYpNQvqhGogGko90hrLoqNtGpNWGMMtQ";
+		 var docid="DOC00000097" ;*/
+			localStorage.setItem("tokenid",tokenid);
+			localStorage.setItem("docid",docid);
+			alert(tokenid);
+ 			 var doc_url = 'doctor-profile-settings_completed.html';
+			 window.open(doc_url, "_blank" );
+ 
+
+			/*var form = document.createElement("form");
+form.setAttribute("method", 'post');
+form.setAttribute("action", "doctor-profile-settings_new_30072020.html");
+
+form.setAttribute("target", "view");
+
+var hiddenField = document.createElement("input");
+hiddenField.setAttribute("type", "hidden");
+hiddenField.setAttribute("name", "tokenid");
+hiddenField.setAttribute("value", tokenid);
+form.appendChild(hiddenField);
+var hiddenField1 = document.createElement("input");
+hiddenField1.setAttribute("type", "hidden");
+hiddenField1.setAttribute("name", "docid");
+hiddenField1.setAttribute("value", docid);
+form.appendChild(hiddenField1);
+document.body.appendChild(form);
+window.open('', 'view');
+
+form.submit();
+
+
+	*/
+
+	//Form post end
+  //var doc_url = './doctor-profile-settings.html?userid='+encodeURIComponent(response);
+  
+  // window.location.replace = doc_url , target="_blank";
+ // window.open = doc_url , target="_blank";
+ //var doc_url = './doctor-profile-settings_new_30072020.html';
+  //window.open(doc_url, "_blank" );
+  
   }
+  
   
  
 }); 
 console.log("function login");
 }
 
-function register()
+
+
+
+/*function register()
 {
 
 var data = {
@@ -312,7 +416,7 @@ console.log(data);
 		   
 		   /*{"Firstname":"kumar","Lastname":"ambuj","UserType":"PAT","email":"ambujpat@cs007.com","password":"ambuj12"}*/
 
-var settings = {
+/*var settings = {
  "url": "http://localhost/rocketmed/api/Users",
  "method": "POST",
  "timeout": 0,
@@ -338,7 +442,7 @@ alert("Error: Please try again");
 
 
 
-}
+}*/
 
 </script>
 	
