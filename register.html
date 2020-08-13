@@ -198,46 +198,47 @@
 											<h3>Register <!--<a href="doctor-register.html">Are you a Doctor?</a> --></h3>
 										</div>
 										
+										
 										<!-- Register Form -->
-										<form>
+										<form id="post-form">
 											
 											<div class="form-group form-focus">
-												<input type="text" class="form-control floating" id="Firstname" required>
+												<input type="text" class="form-control floating " id="Firstname" required />
 												<label class="focus-label">First name</label>
 											</div>
 											
 											<div class="form-group form-focus">
-												<input type="text" class="form-control floating" id="Lastname" required>
+												<input type="text" class="form-control floating " id="Lastname" required />
 												<label class="focus-label">Last name</label>
 											</div>	
 											
 											<div class="form-group form-focus">
-												<input type="email" class="form-control floating"  id="Email" required>
+												<input type="email" class="form-control floating "  id="Email" required />
 												<label class="focus-label">Email</label>
 											</div>
 											<div class="form-group form-focus">
-												<input type="tel" class="form-control floating" id="MobileNum" required>
+												<input type="tel" class="form-control floating " id="MobileNum" required />
 												<label class="focus-label">Mobile number</label>
 											</div>
 
 											<div class="form-group form-focus">
-												<input type="password" class="form-control floating" id="password1" required>
+												<input type="password" class="form-control floating " id="password1"  required />
 												<label class="focus-label">Create password</label>
 											</div>
 											
 											<div class="form-group form-focus">
-												<select class="form-control select" id="gendertype" required>
-													<option value="Male">Gender</option>
+												<select class="form-control select " id="gendertype" required >
+													<option value="Male"> Gender</option> 
 													<option value="Male">Male</option>
 													<option value="Female">Female</option>
 												</select> 
 											</div>
 											
 											<div class="form-group form-focus">
-												<select class="form-control select" id="profiletype" required>
-													<option value="1">Type of User</option>
-													<option value="2">I am a Patient</option>
-													<option value="1">I am a Doctor</option>
+												<select class="form-control select " id="profiletype" required >
+													 <option value="4">Type of User</option>
+													<option value="1">I am a Patient</option>
+													<option value="2">I am a Doctor</option>
 													<option value="3">I am an Admin in Hospital</option>
 													<option value="4">Others</option>
 												</select>
@@ -250,8 +251,9 @@
 												<a class="forgot-link" href="login.html">Already have an account?</a>
 											</div>
 											
-											<input class="btn btn-primary btn-block btn-lg login-btn" type="submit" value="SignUp" onclick="register()"></input>
-										
+											<input class="btn btn-primary btn-block btn-lg login-btn" type="submit" value="SignUp" onclick="submiBtnClick()"></input>
+											<!-- <input  type="submit" value="SignUp" onclick="register()"></input> -->
+											<!-- <button  class="btn btn-primary btn-block btn-lg login-btn" type="submit" title="Confirm" onsubmit="register();">Confirm </button> -->
 										<div class="login-or">
 												<span class="or-line"></span>
 												<span class="span-or">or</span>
@@ -435,9 +437,26 @@
 		
 <script>
 
+
+function submiBtnClick(){
+                var formValid = document.forms["post-form"].checkValidity();
+				if (formValid)
+				{   
+					register();
+					
+					}
+					else
+					{
+						return false;
+					}
+				}
+
+
+
+
 function register()
 {
-	
+// alert("Inside Register");	
 var gend = document.getElementById("gendertype");
 var strGender = gend.options[gend.selectedIndex].value;
 var utype = document.getElementById("profiletype");
@@ -463,7 +482,7 @@ console.log(JSON.stringify(data1));
 UserType":"1"} */
 
 
-const data = {
+/*const data = {
             Firstname: $('#Firstname').val(),
             Lastname: $('#Lastname').val(),
 			email: $('#Email').val(),
@@ -471,8 +490,8 @@ const data = {
 			Password: $('#password1').val(),
 			Gender: strGender,
 			UserType : strUType,
-	       };
-
+	       };*/
+console.log(JSON.stringify(data1));
 $.ajax({
     url: "http://localhost/rocketmed/api/Users",
 	method:"POST",
