@@ -34,6 +34,22 @@
 			<script src="assets/js/html5shiv.min.js"></script>
 			<script src="assets/js/respond.min.js"></script>
 		<![endif]-->
+
+		<script>
+			var docIDGlobal;
+			
+			
+			window.onload = function () {
+
+				authToken= " bearer " +localStorage.getItem("tokenid");
+				user_ID=localStorage.getItem("docid");
+				docIDGlobal=localStorage.getItem("docIDGlobal");
+				alert(authToken);
+				alert(docIDGlobal);
+				
+			}
+
+	</script>
 	
 	</head>
 	<body>
@@ -315,32 +331,32 @@
 										<div class="col-12 col-md-4">
 											<div class="form-group">
 												<label>Bank name <span class="text-danger">*</span></label>
-												<input type="text" class="form-control">
+												<input type="text" class="form-control" id="bankname">
 											</div>
 										</div>
 										
 										<div class="col-12 col-md-4">
 											<div class="form-group">
 												<label>Account name <span class="text-danger">*</span></label>
-												<input type="text" class="form-control">
+												<input type="text" class="form-control" id="accountname">
 											</div>
 										</div>
 										<div class="col-12 col-md-4">
 											<div class="form-group">
 												<label>Account no. <span class="text-danger">*</span></label>
-												<input type="email" class="form-control" >
+												<input type="email" class="form-control" id="accountno">
 											</div>
 										</div>
 										<div class="col-12 col-md-4">
 											<div class="form-group">
 												<label>IFSC Code <span class="text-danger">*</span></label>
-												<input type="text" class="form-control">
+												<input type="text" class="form-control" id="ifsc">
 											</div>
 										</div>
 										<div class="col-12 col-md-4">
 											<div class="form-group">
 												<label>Swift Code<span class="text-danger">*</span></label>
-												<input type="text" class="form-control">
+												<input type="text" class="form-control" id="swiftcode">
 											</div>
 										</div>
 										
@@ -351,7 +367,7 @@
 							
 							
 							<div class="submit-section submit-btn-bottom">
-								<button type="submit" class="btn btn-primary submit-btn">Save Changes</button>
+								<button type="submit" class="btn btn-primary submit-btn" onclick="bank()">Save Changes</button>
 							</div>
 							
 						</div>
@@ -534,6 +550,72 @@
 		
 		<!-- Custom JS -->
 		<script src="assets/js/script.js"></script>
+
+
+
+		<!---Ajax Call-->
+         <script>
+
+		function bank()
+		{
+
+		
+		
+            alert("Bank");
+			var BankName1 = document.getElementById("bankname").value;
+			var AccountName1 = document.getElementById("accountname").value;
+			var AccountNo1 = document.getElementById("accountno").value;
+			var IFSCCode1 = document.getElementById("ifsc").value;
+			var SwiftCode1 = document.getElementById("swiftcode").value;
+			
+		
+
+
+			var data = {
+					DoctorNo:docIDGlobal,
+					BankName: BankName1,
+					AccountName: AccountName1,
+					AccountNo: AccountNo1,
+					IFSCCode: IFSCCode1,
+					SwiftCode : SwiftCode1
+					
+				
+				};
+
+				console.log("Bank Data :"+JSON.stringify(data));
+
+		$.ajax({
+
+			
+			url: "http://localhost/rocketmed/api/DocBankDet/"+docIDGlobal,
+			method:"POST",
+			async: false,
+			contentType: 'application/json; charset=utf-8',
+			data:JSON.stringify(data),
+			timeout: 36000, 
+
+			headers: { "Authorization": authToken },
+
+			error: function(xhr, status, error) {
+				  var err = eval("(" + xhr.responseText + ")");
+				  console.log(err.Message);
+				  alert("Error: Pease Try Again with Valid User Info"+ authToken );
+			
+			},
+			success: function(response){
+					//alert(response);
+					console.log("UserInfo Response:"+response);
+					alert('Bank Details Updated Successfully !!');
+				}
+		});
+
+		}
+
+
+
+   </script>
+
+
 		
 	</body>
 </html>
