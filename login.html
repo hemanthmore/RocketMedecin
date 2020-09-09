@@ -279,6 +279,10 @@ alert("Please enter right Username and Password");
  document.getElementById("login_failed").innerHTML = "Incorrect Username or Password"; 
 
  }
+else if (response.indexOf("invalid") !== -1)
+   {
+   alert("Incorrect Username or Password, Please enter Valid details");
+   }
   else if (response == "PAT1029")
   {
     document.getElementById("login_failed").innerHTML = "Please Enter the details"; 
