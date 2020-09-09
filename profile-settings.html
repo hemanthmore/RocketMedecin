@@ -1,4 +1,4 @@
-<!DOCTYPE html> 
+﻿<!DOCTYPE html> 
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
@@ -34,6 +34,18 @@
 			<script src="assets/js/html5shiv.min.js"></script>
 			<script src="assets/js/respond.min.js"></script>
 		<![endif]-->
+
+
+		<script> /****To get Patient ID***/
+		
+			var patIDGlobal;
+				var firstname , emailid , mobileid, authToken , user_ID ;
+				
+		
+	
+	
+	
+			</script>
 	
 	</head>
 	<body>
@@ -188,7 +200,7 @@
 						<li class="nav-item dropdown has-arrow logged-item">
 							<a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
 								<span class="user-img">
-									<img class="rounded-circle" src="assets/img/patients/patient.jpg" width="31" alt="Ryan Taylor">
+									<img class="rounded-circle" id="user-img" src="data:," width="31" >
 								</span>
 							</a>
 							<div class="dropdown-menu dropdown-menu-right">
@@ -197,7 +209,7 @@
 										<img src="assets/img/patients/patient.jpg" alt="User Image" class="avatar-img rounded-circle">
 									</div>
 									<div class="user-text">
-										<h6>Rohan Mandya</h6>
+										<h6 ><span id="firstname"></h6>
 										<p class="text-muted mb-0">Patient</p>
 									</div>
 								</div>
@@ -237,26 +249,32 @@
 					<div class="row">
 					
 						<!-- Profile Sidebar -->
-						<div class="col-md-5 col-lg-4 col-xl-3 theiaStickySidebar">
-							<div class="profile-sidebar">
-								<div class="widget-profile pro-widget-content">
+						<div class="col-md-5 col-lg-4 col-xl-3 theiaStickySidebar dct-dashbd-lft">
+								<div class="card widget-profile pat-widget-profile">
 									<div class="profile-info-widget">
 										<a href="#" class="booking-doc-img">
-											<img src="assets/img/patients/patient.jpg" alt="User Image">
+											<img src="data:," id="profileimage" alt="User Image">
 										</a>
-										<div class="profile-det-info">
-											<h3>Rohan Mandya</h3>
-											<div class="patient-details">
-												<h5><b>Patient ID :</b> PT0016</h5>
-												<span class="badge badge-pill bg-success">Verified</span>
-<!--
-													<h5><i class="fas fa-birthday-cake"></i> 24 Jul 1983, 38 years</h5>
-												<h5 class="mb-0"><i class="fas fa-map-marker-alt"></i> Vijayanagar, Bangalore</h5>
--->
+										<div class="upload-img">
+											<div class="change-photo-btn">
+												<span><i class="fa fa-upload"></i> Upload Photo</span>
+												<input type="file" id="profilepic" class="upload">
+
+											</div>
+											<small class="form-text text-muted">Allowed JPG, GIF or PNG. Max size of 2MB</small>
+											<div class="profile-det-info">
+												<h3><span  id="firstname_patient"></span></h3>
+												<div class="patient-details">
+													<h5><b>Patient ID :</b> <span id="appendt_list"></span></h5>
+													<span class="badge badge-pill bg-success">Verified</span>
+													<!--
+																	<h5><i class="fas fa-birthday-cake"></i> 24 Jul 1983, 38 years</h5>
+																<h5 class="mb-0"><i class="fas fa-map-marker-alt"></i> Vijayanagar, Bangalore</h5>
+				-->
+												</div>
 											</div>
 										</div>
 									</div>
-								</div>
 								<div class="dashboard-widget">
 									<nav class="dashboard-menu">
 										<ul>
@@ -324,77 +342,63 @@
 									<!-- Profile Settings Form -->
 									<form>
 										<div class="row form-row">
-											<div class="col-12 col-md-12">
-												<div class="form-group">
-													<div class="change-avatar">
-														<div class="profile-img">
-															<img src="assets/img/patients/patient.jpg" alt="User Image">
-														</div>
-														<div class="upload-img">
-															<div class="change-photo-btn">
-																<span><i class="fa fa-upload"></i> Upload Photo</span>
-																<input type="file" class="upload">
-															</div>
-															<small class="form-text text-muted">Allowed JPG, GIF or PNG. Max size of 2MB</small>
-														</div>
-													</div>
-												</div>
-											</div>
+											
 											<div class="col-12 col-md-4">
 												<div class="form-group">
 													<label>First Name</label>
-													<input type="text" class="form-control" placeholder="Rohan">
+							
+							<input type="text" class="form-control" id="firstname_placeholder" />
 												</div>
 											</div>
 											<div class="col-12 col-md-4">
 												<div class="form-group">
 													<label>Last Name</label>
-													<input type="text" class="form-control" placeholder="Mandya">
+													<input type="text" class="form-control"  id="lastname_placeholder">
 												</div>
 											</div>
 											<div class="col-12 col-md-4">
 												<div class="form-group">
 													<label>Date of Birth</label>
 													<div class="cal-icon">
-														<input type="text" class="form-control datetimepicker" placeholder="24-07-1983">
+														<input type="text" class="form-control datetimepicker" id="dob">
 													</div>
 												</div>
 											</div>
 											<div class="col-12 col-md-4">
 												<div class="form-group">
 													<label>Blood Group</label>
-													<select class="form-control select">
-														<option>A-</option>
-														<option>A+</option>
-														<option>B-</option>
-														<option>B+</option>
-														<option>AB-</option>
-														<option>AB+</option>
-														<option>O-</option>
-														<option>O+</option>
+													<select class="form-control select" id="bloodgroup">
+														<option value="1">A-</option>
+														<option value="2">A+</option>
+														<option  value="3">B-</option>
+														<option value="4">B+</option>
+														<option value="5">AB-</option>
+														<option value="6">AB+</option>
+														<option value="7">O-</option>
+														<option value="8">O+</option>
 													</select>
 												</div>
 											</div>
 											<div class="col-12 col-md-4">
 												<div class="form-group">
 													<label>Email ID</label>
-													<input type="email" class="form-control" placeholder="rohan.mandaya@example.com">
+													<input type="email" class="form-control" id="email_placeholder">
 												</div>
 											</div>
 											<div class="col-12 col-md-4">
 												<div class="form-group">
 													<label>Mobile</label>
-													<input type="text" placeholder="+91 88888999999" class="form-control">
+													<input type="text" id="phone_placeholder" class="form-control" id="mobile">
 												</div>
 											</div>
 											
 											<div class="col-12 col-md-4">
 											<div class="form-group">
 												<label>Profile handled by</label>
-												<select class="form-control select">
+												<select class="form-control select" id="profilehandledby" >
 												  <option>Select</option>
-													<option>Self</option>
-													<option>Delegates</option>
+													<option value="1">Self</option>
+													<option value="2">Delegates</option>
 												</select>
 											</div>
 										</div>
@@ -411,20 +415,20 @@
 										<div class="col-12 col-md-4">
 											<div class="form-group">
 												<label class="control-label">Insurance provider</label>
-												<input type="text" class="form-control">
+												<input type="text" class="form-control" id="insurance"/>
 											</div>
 										</div>
 										<div class="col-12 col-md-4">
 												<div class="form-group">
 													<label>Insurance policy no.</label>
-													<input type="text" class="form-control" >
+													<input type="text" class="form-control" id="insurance_policy_no"/>
 												</div>
 											</div>
 											<div class="col-12 col-md-4">
 												<div class="form-group">
 													<label>Insurance Expiry Date</label>
 													<div class="cal-icon">
-														<input type="text" class="form-control datetimepicker" placeholder="mm/dd/yyyy">
+														<input type="text" class="form-control datetimepicker" placeholder="mm/dd/yyyy" id="IED"/>
 													</div>
 												</div>
 											</div>
@@ -440,30 +444,30 @@
 										
 										
 										
-										<div class="card contact-card">
+								<div class="card contact-card">
 								<div class="card-body">
 									<h4 class="card-title">Billing contact details</h4>
 									<div class="row form-row">
 										<div class="col-12 col-md-4">
 											<div class="form-group">
 												<label>Address Line 1</label>
-												<input type="text" class="form-control">
+												<input type="text" class="form-control" id="AddressLine1_collect"/>
 											</div>
 										</div>
 										<div class="col-12 col-md-4">
 											<div class="form-group">
 												<label class="control-label">Address Line 2</label>
-												<input type="text" class="form-control">
+												<input type="text" class="form-control" id="AddressLine2_collect"/>
 											</div>
 										</div>
 										<div class="col-12 col-md-4">
 											<div class="form-group">
 												<label>Country</label>
-												<select class="form-control select">
+												<select class="form-control select" id="country_collect">
 													<option>Select</option>
-													<option>Albania</option>
-													<option>Brazil</option>
-													<option>India</option>
+													<option value="1">Albania</option>
+													<option value="2">Brazil</option>
+													<option value="3">India</option>
 												</select>
 											</div>
 										</div>
@@ -472,22 +476,22 @@
 										<div class="col-12 col-md-4">
 											<div class="form-group">
 												<label>State/Province</label>
-												<select class="form-control select">
+												<select class="form-control select" id="state_collect">
 													<option>Select</option>
-													<option>Karnataka</option>
-													<option>Kerala</option>
-													<option>New delhi</option>
+													<option value="1">Karnataka</option>
+													<option value="2">Kerala</option>
+													<option value="3">New delhi</option>
 												</select>
 											</div>
 										</div>
 										<div class="col-12 col-md-4">
 											<div class="form-group">
 												<label>City</label>
-												<select class="form-control select">
+												<select class="form-control select" id="city_collect">
 													<option>Select</option>
-													<option>Ahmedabad</option>
-													<option>Bangalore</option>
-													<option>Chennai</option>
+													<option value="1">Ahmedabad</option>
+													<option value="2">Bangalore</option>
+													<option value="3">Chennai</option>
 												</select>
 											</div>
 										</div>
@@ -495,25 +499,25 @@
 										<div class="col-12 col-md-4">
 											<div class="form-group">
 												<label class="control-label">Postal Code</label>
-												<input type="text" class="form-control">
+												<input type="text" class="form-control" id="zipcode_collect" >
 											</div>
 										</div>
 										<div class="col-12 col-md-4">
 											<div class="form-group">
 												<label class="control-label">Alternate Phone 1</label>
-												<input type="text" class="form-control">
+												<input type="text" class="form-control"  id="phone1_collect">
 											</div>
 										</div>
 										<div class="col-12 col-md-4">
 											<div class="form-group">
 												<label class="control-label">Alternate Phone 2</label>
-												<input type="text" class="form-control">
+												<input type="text" class="form-control"  id="phone2_collect">
 											</div>
 										</div>
 										<div class="col-12 col-md-4">
 											<div class="form-group">
 												<label class="control-label">Alternate Phone 3</label>
-												<input type="text" class="form-control">
+												<input type="text" class="form-control" id="phone3_collect">
 											</div>
 										</div>
 									</div>
@@ -535,23 +539,23 @@
 										<div class="col-12 col-md-4">
 											<div class="form-group">
 												<label>Address Line 1</label>
-												<input type="text" class="form-control">
+												<input type="text" class="form-control" id="Addressline1_2_collect">
 											</div>
 										</div>
 										<div class="col-12 col-md-4">
 											<div class="form-group">
 												<label class="control-label">Address Line 2</label>
-												<input type="text" class="form-control">
+												<input type="text" class="form-control" id="Addressline2_2_collect">
 											</div>
 										</div>
 										<div class="col-12 col-md-4">
 											<div class="form-group">
 												<label>Country</label>
-												<select class="form-control select">
+												<select class="form-control select" id="Country_2_Collect">
 													<option>Select</option>
-													<option>Albania</option>
-													<option>Brazil</option>
-													<option>India</option>
+													<option value="1">Albania</option>
+													<option  value="2">Brazil</option>
+													<option  value="3">India</option>
 												</select>
 											</div>
 										</div>
@@ -560,22 +564,22 @@
 										<div class="col-12 col-md-4">
 											<div class="form-group">
 												<label>State/Province</label>
-												<select class="form-control select">
+												<select class="form-control select"  id="State_2_Collect">
 													<option>Select</option>
-													<option>Karnataka</option>
-													<option>Kerala</option>
-													<option>New delhi</option>
+													<option value="1">Karnataka</option>
+													<option value="2">Kerala</option>
+													<option value="3">New delhi</option>
 												</select>
 											</div>
 										</div>
 										<div class="col-12 col-md-4">
 											<div class="form-group">
 												<label>City</label>
-												<select class="form-control select">
+												<select class="form-control select" id="City_2_Collect">
 													<option>Select</option>
-													<option>Ahmedabad</option>
-													<option>Bangalore</option>
-													<option>Chennai</option>
+													<option value="1">Ahmedabad</option>
+													<option value="2">Bangalore</option>
+													<option value="3">Chennai</option>
 												</select>
 											</div>
 										</div>
@@ -583,25 +587,25 @@
 										<div class="col-12 col-md-4">
 											<div class="form-group">
 												<label class="control-label">Postal Code</label>
-												<input type="text" class="form-control">
+												<input type="text" class="form-control"  id="postal_2_Collect">
 											</div>
 										</div>
 										<div class="col-12 col-md-4">
 											<div class="form-group">
 												<label class="control-label">Alternate Phone 1</label>
-												<input type="text" class="form-control">
+												<input type="text" class="form-control" id="phone2_1_Collect" >
 											</div>
 										</div>
 										<div class="col-12 col-md-4">
 											<div class="form-group">
 												<label class="control-label">Alternate Phone 2</label>
-												<input type="text" class="form-control">
+												<input type="text" class="form-control" id="phone2_2_Collect" >
 											</div>
 										</div>
 										<div class="col-12 col-md-4">
 											<div class="form-group">
 												<label class="control-label">Alternate Phone 3</label>
-												<input type="text" class="form-control">
+												<input type="text" class="form-control" id="phone2_3_Collect" >
 											</div>
 										</div>
 									</div>
@@ -641,18 +645,18 @@
 											<div class="col-12 col-md-4">
 											<div class="form-group">
 												<label>Select ID proof </label>
-												<select class="form-control select">
+												<select class="form-control select" id="govid">
 													<option>Select</option>
-													<option>Aadhar</option>
-													<option>SSN</option>
-													<option>Passport</option>
+													<option value="1">Aadhar</option>
+													<option value="2">SSN</option>
+													<option value="3">Passport</option>
 												</select>
 											</div>
 										</div>
 											<div class="col-12 col-md-5">
 												<div class="form-group">
 													<label>ID proof number</label>
-													<input type="text" class="form-control">
+													<input type="text" class="form-control" id="id_collect">
 												</div> 
 											</div>
 										</div>
@@ -695,7 +699,7 @@
 										
 											
 										<div class="submit-section">
-											<button type="submit" class="btn btn-primary submit-btn">Save Changes</button>
+											<button type="submit" class="btn btn-primary submit-btn"  onclick="saveUserInfo()">Save Changes</button>
 										</div>
 										
 									</form>
@@ -905,6 +909,289 @@
 		
 		<!-- Dropzone JS -->
 		<script src="assets/plugins/dropzone/dropzone.min.js"></script>
+
+		<script>
+
+				//Save User Info:
+		function saveUserInfo()
+			{
+			alert("Running");
+			var bloodgroup1 = document.getElementById("bloodgroup");
+			var bloodgroup_collect = bloodgroup1.options[bloodgroup1.selectedIndex].value;
+
+			var profile1= document.getElementById("profilehandledby");
+			var profile_handle =  profile1.options[profile1.selectedIndex].value;
+
+			
+			var city1= document.getElementById("city_collect");
+			var city1_col = city1.options[city1.selectedIndex].value;
+
+
+			
+			var  state1= document.getElementById("state_collect");
+			var   state1_col= state1.options[state1.selectedIndex].value;
+
+			var  country1= document.getElementById("country_collect");
+			var   country1_col= country1.options[country1.selectedIndex].value;
+
+			
+			var  City2= document.getElementById("City_2_Collect");
+			var   City2_col= City2.options[City2.selectedIndex].value;
+
+
+			var  state2= document.getElementById("State_2_Collect");
+			var   state2_col= state2.options[state2.selectedIndex].value;
+
+
+			var  Country2= document.getElementById("Country_2_Collect");
+			var   Country2_col= Country2.options[Country2.selectedIndex].value;
+
+
+			var  Govtid= document.getElementById("govid");
+			var  governmentid= Govtid.options[Govtid.selectedIndex].value;
+			
+			var DateOB= $('#dob').val();
+			
+			function changeDateFormat(inputDate){  
+    			var splitDate = inputDate.split('/');
+    				if(splitDate.count == 0){
+        				return null;
+    					}
+  				var year = splitDate[2];
+    			var month = splitDate[1];
+    			var day = splitDate[0]; 
+
+    			return month + '/' + day + '/' + year;
+				}
+
+				var newDate = changeDateFormat(DateOB);
+
+
+
+
+				var IED = $('#IED').val();
+						
+				function changeDateFormat(inputDate){  
+    			var splitDate = inputDate.split('/');
+    				if(splitDate.count == 0){
+        				return null;
+    					}
+  				var year = splitDate[2];
+    			var month = splitDate[1];
+    			var day = splitDate[0]; 
+
+    			return month + '/' + day + '/' + year;
+				}
+				
+				var IED1 = changeDateFormat(IED);
+				
+				var userInfoData = {
+					Firstname: firstname,
+					Lastname: lastname,
+					Mobile1 :  mobileid,
+					EmailId1: emailid,
+					DOB: newDate,
+					BloodgroupId: bloodgroup_collect,
+				    EmailId1: emailid,
+					PatientProfileHandById: profile_handle,
+					InsuranceProvider: $('#insurance').val(),
+					InsurancePolicyNo: $('#insurance_policy_no').val(),
+					InsuranceExpirydate:IED1,
+					Phone1: $('#phone1_collect').val(),
+					Phone2: $('#phone2_collect').val(),
+					Phone3: $('#phone3_collect').val(),
+					AddressLine1: $('#AddressLine1_collect').val(),
+					AddressLine2:$('#phone3_collect').val(),
+                    CityId :city1_col,
+					StateId :state1_col,
+					Zipcode: $('#zipcode_collect').val(),
+					CountryId: country1_col,
+					DeliveryAddressLine1: $('#Addressline1_2_collect').val(),
+					DeliveryAddressLine2: $('#Addressline2_2_collect').val(),
+					DeliveryCityId: City2_col,
+					DeliveryStateId: state2_col,
+					DeliveryZipcode: $('#postal_2_Collect').val(),
+                    DeliveryCountryId:  Country2_col,
+					GovtproofId:governmentid,
+					GovtproofNo: $('#id_collect').val(),
+					PatientDesignationDisplay:"Engineer"
+
+
+				}  
+					console.log("Basic Info Data :"+JSON.stringify(userInfoData));
+
+
+				$.ajax({
+				url: "http://www.rocketmedecin.com/rocketmed/api/Patient/"+patIDGlobal+"?page=1",
+			 	method:"PUT",
+		 		async: false,
+			 	contentType: 'application/json; charset=utf-8',
+				data:JSON.stringify(userInfoData),
+				timeout: 36000, 
+				headers: { "Authorization": authToken},
+			
+				error: function(xhr, status, error) {
+					  var err = eval("(" + xhr.responseText + ")");
+					  console.log(err.Message);
+  					alert("Please check if all the values are filled Properly" );
+				
+				},
+				success: function(response){
+						console.log("UserInfo Response:"+response);
+						alert('Patient Basic Info Updated Successfully !!');
+					}
+			});
+			
+			}
+			
+			
+			
+
+
+
+		</script>
+		 <script>
+			window.onload = function () {
+
+				authToken = " bearer " + localStorage.getItem("tokenid");
+				user_ID = localStorage.getItem("patid");
 		
+				if (user_ID.indexOf("PAT")!== -1)
+					{
+					 var pat_id = user_ID.slice(3,user_ID.length);
+					 patIDGlobal = pat_id;
+					 localStorage.setItem("patIDGlobal",patIDGlobal);
+	        
+				 var setting1 = {
+				 "url": "http://www.rocketmedecin.com/rocketmed/api/Patient/"+pat_id ,
+				 "method": "GET",
+				 "timeout": 0,
+				 "headers": { "Authorization":  authToken }
+				 };
+				 //alert(docIDGlobal);
+				$.ajax(setting1).done(function (resp1) {
+				
+					var data = $.parseJSON(resp1);
+					console.log(JSON.stringify(data));
+					
+				     
+					$('#appendt_list').append('<p>' + user_ID+ '</p>');
+				 $('#firstname_patient').append('<p>' + data.PatientDtls[0].Firstname + '</p>');
+				 $('#lastname_patient').append('<p>' + data.PatientDtls[0].Lastname + '</p>');
+					   $('#mobile_no').append('<p>' + data.PatientDtls[0].Mobile1 + '</p>');
+					 $('#email_id').append('<p>' + data.PatientDtls[0].EmailId1 + '</p>');
+			// 				//  $('#first_name').append('<p>' + data.DoctorDtls[0].Firstname + '</p>');
+			// 				// $('#image').prepend('<img id="theImg" src="./images/doctor_image.jpg" alt="" class="img-fluid img-thumbnail" />');
+									 firstname =  data.PatientDtls[0].Firstname ;
+									 lastname  =  data.PatientDtls[0].Lastname ;
+									  emailid = data.PatientDtls[0].EmailId1;
+								 		 mobileid = data.PatientDtls[0].Mobile1 ;
+
+								console.log(firstname+"Patientfirstname");
+								console.log(lastname +"lastnamefirstname");
+								console.log(emailid +"emailidfirstname");
+								console.log(mobileid  +"mobileid firstname");
+
+							$("#firstname_placeholder").attr("placeholder", firstname);
+		                   $("#lastname_placeholder").attr("placeholder", lastname);
+						   $("#email_placeholder").attr("placeholder", emailid );
+						   $("#phone_placeholder").attr("placeholder", mobileid );
+
+	
+					
+				 });
+				 localStorage.setItem("pat_name",  firstname);
+				}
+
+				var patient_id = user_ID.slice(3, user_ID.length);
+				loadProfilepic(patient_id);
+				var btnUpload = $("#profilepic");
+				btnUpload.on("change", function (e) {
+
+					let files = new FormData(),
+						url = 'http://www.rocketmedecin.com/rocketmed/api/UpFiles/' + patient_id + '?usertype=pat&doctype=1';
+					files.append('image', document.getElementById('profilepic').files[0]);
+					var settings = {
+						"url": url,
+						"method": "PUT",
+						"timeout": 0,
+						"processData": false,
+						"mimeType": "multipart/form-data",
+						"contentType": false,
+						"data": files,
+						"headers": {
+							"Authorization": authToken
+						}
+
+					};
+
+					$.ajax(settings).done(function (response) {
+						console.log(response);
+						loadProfilepic(patient_id);
+
+					});
+
+				});
+				function loadProfilepic(userId) {
+				var settings = {
+					"url": "http://www.rocketmedecin.com/rocketmed/api/UpFiles?usertype=pat&userid=" + userId,
+					"method": "GET",
+					"timeout": 0,
+					"headers": {
+						"Authorization": authToken
+					}
+				};
+				$.ajax(settings).done(function (response) {
+
+					var data = $.parseJSON(response);
+
+					console.log(data.PatFileList.length);
+					var last = data.PatFileList[data.PatFileList.length - 1]
+					console.log(last);
+					var PatientDocumentId = last.PatientDocumentId;
+					console.log(PatientDocumentId);
+					var source = last.DocPath;
+					console.log(source);
+					updateProfilepic(PatientDocumentId);
+
+				});
+
+				function updateProfilepic(docid) {
+					console.log("updating image");
+
+					var settings = {
+
+						"url": "http://www.rocketmedecin.com/rocketmed/api/UpFiles/" + docid + "?usertype=pat",
+
+						"method": "GET",
+
+						"timeout": 0,
+						"headers": {
+							"Authorization": authToken
+						}
+
+					};
+
+					$.ajax(settings).done(function (response) {
+						console.log(response);
+					
+						$("#profileimage").attr("src", "data: image / jpeg; base64," + response);
+                        $("#user-img").attr("src", "data: image / jpeg; base64," + response);
+
+					});
+
+
+				}
+
+			}
+
+
+
+			}
+
+			
+		 </script>
 	</body>
+
+
 </html>

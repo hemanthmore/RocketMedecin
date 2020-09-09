@@ -2,7 +2,7 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
-		<title>Rocket Medecin</title>
+		<title>Rocket Medecine</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
 		
 		<!-- Favicons -->
@@ -35,6 +35,77 @@
 			<script src="assets/js/html5shiv.min.js"></script>
 			<script src="assets/js/respond.min.js"></script>
 		<![endif]-->
+
+
+		<!---Script Start -->
+
+		<script>
+			var hosIDGlobal;
+			var firstname  ,  emailid , mobileid, authToken , user_ID ;
+			
+			window.onload = function () {
+				authToken= " bearer " +localStorage.getItem("tokenid");
+				user_ID=localStorage.getItem("hospital");
+	
+			if (user_ID.indexOf("HOS")!== -1)
+				{
+				 var HOS_id = user_ID.slice(3,user_ID.length);
+				 hosIDGlobal = HOS_id;
+			 	localStorage.setItem("hosIDGlobal",hosIDGlobal);
+
+			 var setting1 = {
+			 "url": "http://www.rocketmedecin.com/rocketmed/api/HospSetInfo/"+HOS_id,
+			 "method": "GET",
+			 "timeout": 0,
+			 "headers": { "Authorization":  authToken }
+			 };
+			 //alert(docIDGlobal);
+			$.ajax(setting1).done(function (resp1) {
+			
+				var data = $.parseJSON(resp1);
+			 // alert(JSON.stringify(data));
+		        //console.log(JSON.stringify(data));
+			// {"HospitalDtls":[{"HospitalId":3,"HospitalTypeId":null,"HospitalNo":"177","SSN":null,
+			// "Hospitalname":"hospital100 hospital100","Mobile1":"1234567988","Mobile2":null,
+			// "EmailId1":"hospital100@gmail.com","EmailId2":null,"EmailId3":null,"HospitalProfileHandById":null,
+			// "Phone1":null,"Phone2":null,"Phone3":null,"Fax1":null,"Fax2":null,"Fax3":null,
+			// "Biography":null,"AddressLine1":null,"AddressLine2":null,"CityId":null,"StateId":null,
+			// "Zipcode":null,"CountryId":null,"Weburl":null,"GovtPan":null,"GovtTan":null,
+			// "GovtGST":null,"GovtIncorporation":null,"HospitalProfilePict":null,"HospitalBranch":null}]}
+
+			 $('#appendt_list').append('<p>' + user_ID+ '</p>');
+				 $('#hospitalname').append('<p>' + data.HospitalDtls[0].Hospitalname + '</p>');
+					   $('#mobile_no').append('<p>' + data.HospitalDtls[0].Mobile1 + '</p>');
+					 $('#email_id').append('<p>' + data.HospitalDtls[0].EmailId1 + '</p>');
+			// 				//  $('#first_name').append('<p>' + data.DoctorDtls[0].Firstname + '</p>');
+			// 				// $('#image').prepend('<img id="theImg" src="./images/doctor_image.jpg" alt="" class="img-fluid img-thumbnail" />');
+									 firstname =  data.HospitalDtls[0].Hospitalname ;
+									  emailid = data.HospitalDtls[0].EmailId1;
+								 		 mobileid = data.HospitalDtls[0].Mobile1 ;
+								
+							$("#firstname_palceholder").attr("placeholder", firstname);
+			// 			    $("#lastname_placeholder").attr("placeholder", lastname);
+						   $("#email").attr("placeholder", emailid );
+						   $("#phone").attr("placeholder", mobileid );
+
+				
+			 });
+		localStorage.setItem("hos_name",  firstname);
+			}
+		}
+		
+
+
+
+		</script>
+
+		
+		
+
+
+
+
+
 	
 	</head>
 	<body>
@@ -239,10 +310,10 @@
 														<small class="form-text text-muted">Allowed JPG, GIF or PNG. Max size of 2MB</small>
 													</div><br>
 										<div class="profile-det-info">
-											<h3>AP Hospital</h3>
+											<h3><span id="hospitalname"> </span></h3>
 											
 											<div class="patient-details">
-											  <h5 class="mb-0">Unique ID:  <strong>AVKHBV0774</strong></h5>
+											  <h5 class="mb-0">Unique ID:  <strong><span id="appendt_list"></span> </strong></h5>
 												
 											</div>
 											
@@ -373,18 +444,18 @@
                  <div class="col-md-6">
 											<div class="form-group">
 												<label>Select type<span class="text-danger">*</span></label>
-												<select class="form-control select">
-													<option></option>
-													<option>Headquaters</option>
-													<option>Branch</option>
-													<option>Independent Center</option>
+												<select class="form-control select" id="hospitaltypeid">
+													<option> Please select the corresponding</option>
+													<option value="1">Headquaters</option>
+													<option value="2">Branch</option>
+													<option value="3">Independent Center</option>
 												</select>
 											</div>
 										</div>
 										<div class="col-md-6">
 											<div class="form-group">
 												<label>Hospital name <span class="text-danger">*</span></label>
-												<input type="text" class="form-control">
+												<input type="text" class="form-control" id="hospitalname1">
 											</div>
 										</div>
 						
@@ -393,30 +464,30 @@
 						<div class="col-md-4">
 											<div class="form-group">
 												<label>Address Line 1</label>
-												<input type="text" class="form-control">
+												<input type="text" class="form-control" id="addressline1">
 											</div>
 										</div>
 										<div class="col-md-4">
 											<div class="form-group">
 												<label class="control-label">Address Line 2</label>
-												<input type="text" class="form-control">
+												<input type="text" class="form-control" id="addressline2">
 											</div>
 										</div>
 						
 						<div class="col-md-4">
 											<div class="form-group">
 												<label class="control-label">Address Line 3</label>
-												<input type="text" class="form-control">
+												<input type="text" class="form-control" id="addressline3">
 											</div>
 										</div>
 										<div class="col-12 col-md-4">
 											<div class="form-group">
 												<label>Country</label>
-												<select class="form-control select">
+												<select class="form-control select" id="country">
 													<option>Select</option>
-													<option>Albania</option>
-													<option>Brazil</option>
-													<option>India</option>
+													<option value="1">Albania</option>
+													<option value="2">Brazil</option>
+													<option value="3">India</option>
 												</select>
 											</div>
 										</div>
@@ -424,57 +495,57 @@
 										<div class="col-12 col-md-4">
 											<div class="form-group">
 												<label>State/Province</label>
-												<select class="form-control select">
+												<select class="form-control select" id="state1">
 													<option>Select</option>
-													<option>Karnataka</option>
-													<option>Kerala</option>
-													<option>New delhi</option>
+													<option value="1">Karnataka</option>
+													<option value="2">Kerala</option>
+													<option value="3">New delhi</option>
 												</select>
 											</div>
 										</div>
 										<div class="col-12 col-md-4">
 											<div class="form-group">
 												<label>City</label>
-												<select class="form-control select">
+												<select class="form-control select" id="city">
 													<option>Select</option>
-													<option>Ahmedabad</option>
-													<option>Bangalore</option>
-													<option>Chennai</option>
+													<option value="1">Ahmedabad</option>
+													<option value="2">Bangalore</option>
+													<option value="3">Chennai</option>
 												</select>
 											</div>
 										</div>
 										<div class="col-md-4">
 											<div class="form-group">
 												<label class="control-label">Postal Code</label>
-												<input type="text" class="form-control">
+												<input type="text" class="form-control" id="postal">
 											</div>
 										</div>
 										
 										<div class="col-md-8">
 											<div class="form-group" >
 												<label>Web URL</label>
-												<input type="text" class="form-control" placeholder="www.example.com">
+												<input type="text" class="form-control" placeholder="www.example.com" id="web">
 											</div>
 										</div>
 						
 						<div class="col-md-4">
 											<div class="form-group">
 												<label>Email <span class="text-danger">*</span></label>
-												<input type="email" class="form-control">
+												<input type="email" class="form-control" id="email">
 											</div>
 										</div>
 										
 										<div class="col-md-4">
 											<div class="form-group" >
 												<label>Phone</label>
-												<input type="text" class="form-control" placeholder="eg: 080 66666666">
+												<input type="text" class="form-control" placeholder="eg: 080 66666666" id="phone">
 											</div>
 										</div>
 										
 										<div class="col-md-4">
 											<div class="form-group">
 												<label>Fax </label>
-												<input type="email" class="form-control">
+												<input type="email" class="form-control" id="fax">
 											</div>
 										</div>
 									<div class="add-more">
@@ -482,9 +553,10 @@
 									</div>
 
                   
-                </div>
+				</div>
+				
 					<div class="button-row d-flex mt-4">
-                    <button class="btn btn-primary ml-auto js-btn-next" type="button" title="Next">Next</button>
+                    <button class="btn btn-primary ml-auto js-btn-next" type="button" title="Next" onclick="next1()">Next</button>
                   </div>
               </div>
 				  </div>
@@ -515,7 +587,7 @@
 							<div class="col-12"><br><br>
 									<h4 class="card-title">About Hospital</h4>
 									<div class="form-group mb-0">
-										<textarea class="form-control" rows="5"></textarea>
+										<textarea class="form-control" rows="5" id="aboutus"></textarea>
 									</div>
 						</div>
 						
@@ -551,7 +623,7 @@
 				  </div>
 					<div class="button-row d-flex mt-4">
                     <button class="btn btn-primary js-btn-prev" type="button" title="Prev">Prev</button>
-                    <button class="btn btn-primary ml-auto js-btn-next" type="button" title="Next">Next</button>
+                    <button class="btn btn-primary ml-auto js-btn-next" type="button" title="Next" onclick="next2()">Next</button>
                   </div>
 					
 				</div>
@@ -573,13 +645,13 @@
 											<div class="col-12 col-md-5">
 												<div class="form-group">
 													<label>Awards</label>
-													<input type="text" class="form-control">
+													<input type="text" class="form-control" id="awardsid">
 												</div> 
 											</div>
 											<div class="col-12 col-md-5">
 												<div class="form-group">
 													<label>Year</label>
-													<input type="text" class="form-control">
+													<input type="number" class="form-control" id="yearid" placeholder="Please enter Year ">
 												</div> 
 											</div>
 										</div>
@@ -598,26 +670,26 @@
 											<div class="col-12 col-md-5">
 												<div class="form-group">
 													<label>PAN</label>
-													<input type="text" class="form-control">
+													<input type="text" class="form-control" id="pan">
 												</div> 
 											</div>
 											<div class="col-12 col-md-5">
 												<div class="form-group">
 													<label>GST No.</label>
-													<input type="text" class="form-control">
+													<input type="text" class="form-control" id="gst">
 												</div> 
 											</div>
 											
 											<div class="col-12 col-md-5">
 												<div class="form-group">
 													<label>TAN</label>
-													<input type="text" class="form-control">
+													<input type="text" class="form-control" id="tan">
 												</div> 
 											</div>
 											<div class="col-12 col-md-5">
 												<div class="form-group">
 													<label>Incororation</label>
-													<input type="text" class="form-control">
+													<input type="text" class="form-control" id="Incorporation">
 												</div> 
 											</div>
 											
@@ -658,13 +730,13 @@
 											<div class="col-12 col-md-5">
 												<div class="form-group">
 													<label>Registrations</label>
-													<input type="text" class="form-control">
+													<input type="number" class="form-control" id="registeryear">
 												</div> 
 											</div>
 											<div class="col-12 col-md-5">
 												<div class="form-group">
 													<label>Year</label>
-													<input type="text" class="form-control">
+													<input type="Number" class="form-control" id="registeryearid" placeholder="Please Enter Year">
 												</div> 
 											</div>
 										</div>
@@ -687,7 +759,7 @@
 					
                   <div class="button-row d-flex mt-4">
                     <button class="btn btn-primary js-btn-prev" type="button" title="Prev">Prev</button>
-                     <button class="btn btn-primary ml-auto js-btn-next" type="button" title="Next">Next</button>
+                     <button class="btn btn-primary ml-auto js-btn-next" type="button" title="Next" onclick="next3()">Next</button>
                   </div>
                 </div>
               </div>
@@ -958,7 +1030,481 @@
 		   
 		</div>
 		<!-- /Main Wrapper -->
-	  
+	   <script>
+   
+
+	 /**First Ajax Call*/
+	 
+	   function next1()
+	   {
+		   //alert("next1");
+
+		var country_get = document.getElementById("country");
+		var country1 = country_get.options[country_get.selectedIndex].value;
+
+		var state_get = document.getElementById("state1");
+		var state2 = state_get.options[state_get.selectedIndex].value;
+
+		var city_get = document.getElementById("city");
+		var city1 = city_get.options[city_get.selectedIndex].value;
+
+
+		var hospitalid_get = document.getElementById("hospitaltypeid");
+		var hospital1 = hospitalid_get.options[hospitalid_get.selectedIndex].value;
+
+		var hospitalname = document.getElementById("hospitalname1").value;
+		
+		var addressline1 = document.getElementById("addressline1").value;
+
+		var addressline2 = document.getElementById("addressline2").value;
+
+		var addressline3 = document.getElementById("addressline3").value;
+
+		var postal = document.getElementById("postal").value;
+
+		var web = document.getElementById("web").value;
+
+		var email1 = document.getElementById("email").value;
+
+		var phone = document.getElementById("phone").value;
+
+		var fax = document.getElementById("fax").value;
+
+		var string ="null";
+
+
+		var hospitalData = {
+
+              			HosTypeId: hospital1 ,
+						HospName: hospitalname,
+						Addr1: addressline1 ,
+						Addr2: addressline2,
+						/*Addr3: addressline3,*/
+						
+						CityId : city1,
+						StateId: state2,
+						Zipcode:postal,
+						
+						CountryId: country1,
+						Weburl: web,
+						EmailId1: email1,
+						Phone1:  phone ,
+						Fax1: fax,
+						EmailId2: string ,
+						Phone2: string ,
+						Fax2: string ,
+						EmailId3: string ,
+						Phone3: string  ,
+						Fax3: string 
+
+					};
+
+
+		console.log("Basic Hospital Info:" +JSON.stringify(hospitalData));
+		
+		
+		
+			$.ajax({
+				url: "http://www.rocketmedecin.com/rocketmed/api/HospSetInfo/"+hosIDGlobal+"?page=1",
+				method:"PUT",
+				async: false,
+				contentType: 'application/json; charset=utf-8',
+				data:JSON.stringify(hospitalData),
+				timeout: 36000, 
+				headers: { "Authorization": authToken	 },
+				error: function(xhr, status, error) {
+  					var err = eval("(" + xhr.responseText + ")");
+					  console.log('ajax call Erorr');
+					  console.log(err.Message);
+  			
+					alert("Error: Pease Try Again with Valid Details");
+
+				
+				},
+				success: function(response){
+						console.log(response);
+						console.log("Your ID : "+response);
+						alert('  Success !!');
+					
+						}
+			});
+
+	   }
+
+
+
+		/**Second Ajax Call*/
+	
+
+	/**Third Ajax Call***/
+	/**Start***/
+		function next3()
+	   {
+	
+		var Hospno;
+		var awards = document.getElementById("awardsid").value;
+		var year  = document.getElementById("yearid").value;
+
+		var dataNext3 = {
+						 HospNo: hosIDGlobal,
+						 AwardName: awards,
+						 Year: year
+					   };   
+			
+			console.log(JSON.stringify(dataNext3));
+                
+			var formatdata=JSON.stringify(dataNext3);
+
+
+
+		/*var d2;
+		//console.log(JSON.stringify(data3));
+		if(awardcounter >= 2)
+		{	var i;
+			for( i=1;i<awardcounter;i++)
+			{	
+
+				var Hospno;
+				var awards = document.getElementById("awardsid"+i).value;
+				var year  = document.getElementById("yearid"+i).value;
+
+				d2  = { HospNo: hosIDGlobal,AwardName: awards, Year: year,orderby:awardcounter};
+				
+				formatdata+= ","+ JSON.stringify(d2) ;
+				alert(d1.toString());
+			}
+		}*/
+
+			$.ajax({
+				url: "http://www.rocketmedecin.com/rocketmed/api/HospAward/"+hosIDGlobal,
+				method:"POST",
+				async: false,
+				contentType: 'application/json; charset=utf-8',
+				data: "["+formatdata+"]" ,
+				timeout: 36000, 
+				headers: { "Authorization": authToken	 },
+				error: function(xhr, status, error) {
+				
+  					var err = eval("(" + xhr.responseText + ")");
+					  console.log('ajax call Eror');
+					  console.log(err.Message);
+  			
+					alert("Error: Pease Try Again with Valid Details" );
+
+				
+				},
+				success: function(response){
+						console.log(response);
+						console.log("Your ID : "+response);
+						alert('  Success !!');
+					
+						}
+			});
+		
+			register();
+			hosp_govtid();
+
+	   }
+
+	   	/**End***/
+
+
+		   /**Start***/
+		function register()
+	   {
+	
+		var Hospno;
+		var registername = document.getElementById("registeryear").value;
+		var registeryear  = document.getElementById("registeryearid").value;
+
+		if(registeryear.contains)
+       
+		var registerdata = {
+						 HospNo: hosIDGlobal,
+						 RegistrationName: registername,
+						 Year: registeryear 
+					   };   
+			
+			console.log(JSON.stringify(registerdata ));
+                
+			let formatdata=JSON.stringify(registerdata );
+
+			$.ajax({
+				url: "http://www.rocketmedecin.com/rocketmed/api/HospRegDet/"+hosIDGlobal,
+				method:"POST",
+				async: false,
+				contentType: 'application/json; charset=utf-8',
+				data: "["+formatdata+"]" ,
+				timeout: 36000, 
+				headers: { "Authorization": authToken	 },
+				error: function(xhr, status, error) {
+				
+  					var err = eval("(" + xhr.responseText + ")");
+					  console.log('ajax call Eror');
+					  console.log(err.Message);
+  			
+					alert("Error: Pease Try Again with Valid Details" );
+
+				
+				},
+				success: function(response){
+						console.log(response);
+						console.log("Your ID : "+response);
+						alert('  Success !!');
+					
+						}
+			});
+		
+        
+	   }
+
+	   	/**End***/
+
+
+		/****Mark 7.43***/
+
+		function hosp_govtid()
+	   {
+	
+	   
+		var Hospno;
+     	var pan1 = document.getElementById("pan").value;
+     	var gstno1 = document.getElementById("gst").value;
+     	var tan1 = document.getElementById("tan").value;
+     	var incorporation1 = document.getElementById("Incorporation").value;
+
+		
+		 var govtidupdate = {
+                      HospNo: hosIDGlobal,
+                      GovtPan: pan1,
+					  GovtTan: tan1,
+                      GovtGST: gstno1 ,
+                      GovtIncorporation: incorporation1
+                    };   
+			
+			
+
+					console.log(JSON.stringify(govtidupdate));
+				
+                    
+
+						$.ajax({
+						url: "http://www.rocketmedecin.com/rocketmed/api/HospSetInfo/"+hosIDGlobal+"?page=3",
+						method:"PUT",
+						async: false,
+						contentType: 'application/json; charset=utf-8',
+						data: JSON.stringify(govtidupdate),
+						timeout: 36000, 
+						headers: { "Authorization": authToken	 },
+						error: function(xhr, status, error) {
+							
+							var err = eval("(" + xhr.responseText + ")");
+							console.log('ajax call Error');
+							console.log(err.Message);
+							alert("Error: Pease Try Again with Valid Details" );
+
+
+						},
+						success: function(response){
+								console.log(response);
+								console.log("Your ID : "+response);
+								alert(' Success !!');
+							
+								}
+						});
+						}
+
+
+        /****Mark 21082020 8.20***/
+      
+		function next2()
+	   {
+	
+	   
+		var Hospno;
+     	var aboutus = document.getElementById("aboutus").value;
+     	
+
+		
+		 var aboutus = {Bio:aboutus};   
+			
+			
+
+					console.log(JSON.stringify(aboutus));
+				
+                    
+
+						$.ajax({
+						url: "http://www.rocketmedecin.com/rocketmed/api/HospSetInfo/"+hosIDGlobal+"?page=2",
+						method:"PUT",
+						async: false,
+						contentType: 'application/json; charset=utf-8',
+						data: JSON.stringify(aboutus),
+						timeout: 36000, 
+						headers: { "Authorization": authToken	 },
+						error: function(xhr, status, error) {
+							
+							var err = eval("(" + xhr.responseText + ")");
+							console.log('ajax call Error');
+							console.log(err.Message);
+							alert("Error: Pease Try Again with Valid Details" );
+
+
+						},
+						success: function(response){
+								console.log(response);
+								console.log("Your ID : "+response);
+								alert(' Success !!');
+							
+								}
+						});
+						services();
+						specialization();
+						}
+
+
+				 /****END 2182020 8.29***/
+				 
+
+	function services()
+
+		{	
+			
+			let specData={"HospNo":"00000177","ServiceName":"Spec 13","OrderBy":"44"};
+			specData = JSON.stringify(specData);
+			var d2,d1;
+			var specializations_All = document.getElementById("services").value;
+			var str_array = specializations_All.split(',');
+			
+			// {"DoctorNo":"00000004","ServiceName":"Service 3","OrderBy":"1"},{"DoctorNo":"00000004","ServiceName":"Service 4","OrderBy":"2"}
+
+			if(str_array.length == 1)
+			{
+				specData= {HospNo:hosIDGlobal,ServiceName:specializations_All,OrderBy:"1"};
+				specData = JSON.stringify(specData);
+				console.log(specData);
+			}
+			if(str_array.length>=2)
+			{
+				for(var i = 0; i < str_array.length; i++) {
+   					// Trim the excess whitespace.
+   					//str_array[i] = str_array[i].replace(/^\s*/, "").replace(/\s*$/, "");					
+					d2= {HospNo:hosIDGlobal,ServiceName:str_array[i],OrderBy:i};
+					specData += ","+ JSON.stringify(d2)  ;
+				}			
+				}
+				console.log("["+specData+"]");
+				$.ajax({
+					url: "http://www.rocketmedecin.com/rocketmed/api/HospSer/" +hosIDGlobal,
+					method:"POST",
+					async: false,
+					contentType: 'application/json; charset=utf-8',
+					data:"["+specData+"]",
+					timeout: 36000, 
+					headers: { "Authorization": authToken },
+					error: function(xhr, status, error) {
+						  var err = eval("(" + xhr.responseText + ")");
+						  console.log("Error Message"+err.Message);		
+						alert("Error saving Hospital Services Info. Pease Try Again");
+						
+					},
+					success: function(response1){
+							console.log(response1);
+							console.log("Hospital Services Info Updated !! ");
+							alert('Hospital Services Info Updated Successfully!!');
+							}
+				});
+		}
+
+
+function specialization()
+
+{	
+	
+	let specData={"HospNo":"00000177","SpecializationName":"Spec 13","OrderBy":"44"};
+	specData = JSON.stringify(specData);
+	var d2,d1;
+	var specializations_All = document.getElementById("specialist").value;
+	var str_array = specializations_All.split(',');
+	
+	// {"DoctorNo":"00000004","ServiceName":"Service 3","OrderBy":"1"},{"DoctorNo":"00000004","ServiceName":"Service 4","OrderBy":"2"}
+
+	if(str_array.length == 1)
+	{
+		specData= {HospNo:hosIDGlobal,SpecializationName:specializations_All,OrderBy:"1"};
+		specData = JSON.stringify(specData);
+		console.log(specData);
+	}
+	if(str_array.length>=2)
+	{
+		for(var i = 0; i < str_array.length; i++) {
+			   // Trim the excess whitespace.
+			   //str_array[i] = str_array[i].replace(/^\s*/, "").replace(/\s*$/, "");					
+			d2= {HospNo:hosIDGlobal,SpecializationName:str_array[i],OrderBy:i};
+			specData += ","+ JSON.stringify(d2)  ;
+		}			
+		}
+		console.log("["+specData+"]");
+		$.ajax({
+			url: "http://www.rocketmedecin.com/rocketmed/api/HospSpec/" +hosIDGlobal,
+			method:"POST",
+			async: false,
+			contentType: 'application/json; charset=utf-8',
+			data:"["+specData+"]",
+			timeout: 36000, 
+			headers: { "Authorization": authToken },
+			error: function(xhr, status, error) {
+				  var err = eval("(" + xhr.responseText + ")");
+				  console.log("Error Message"+err.Message);		
+				alert("Error saving Hospital Specialization Info. Pease Try Again");
+				
+			},
+			success: function(response1){
+					console.log(response1);
+					console.log("Hospital Specialization Info Updated !! ");
+					alert('Hospital SpecializationInfo Updated Successfully!!');
+					}
+		});
+}
+
+
+/****232020**
+var awardcounter=1;
+
+(function($) {
+
+$(".awards-cont").on('click','.trash', function () {
+		$(this).closest('.awards-cont').remove();
+		return false;
+    });
+
+    $("add-award").on('click', function () {
+	var awards_dynamic = '<div class="row form-row awards-cont">'+
+						'<div class="col-12 col-md-5">'+
+							'<div class="form-group">'+
+								'<label>Awards</label>'+
+									'<input type="text" class="form-control" id="awardsid'+awardcounter+'">' +
+									'</div>'+
+								 ' </div>'+
+		
+							'<div class="col-12 col-md-5">'+
+								'<div class="form-group">'+
+									'<label>Year</label>'+
+										'<input type="number" class="form-control" id="yearid'+awardcounter+'" placeholder="Please enter Year ">'+
+										 '</div>'+ 
+									'</div>'+
+							'</div>';
+									
+		awardcounter++;
+        $(".awards-cont").append(awards_dynamic);
+        return false;
+    });
+
+});*/
+
+</script>
+
+	
 		<!-- jQuery -->
 		<script src="assets/js/jquery.min.js"></script>
 		
