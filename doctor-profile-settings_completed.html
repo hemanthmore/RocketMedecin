@@ -54,27 +54,97 @@
 
 	   </style>
 
-	   <script>
-		   /*
-		function getParameterByName(name, url) {
-		if (!url) url = window.location.href;
-		alert(url);
-		name = name.replace(/[\[\]]/g, '\\$&');
-		var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
-		results = regex.exec(url);
-		if (!results) return null;
-		if (!results[2]) return '';
-		return decodeURIComponent(results[2].replace(/\+/g, ' '));
+	  <style>
+		#map
+		{
+			height:100%;
 		}
+	</style>
 		
-		var sn1 = getParameterByName('docid');
-		var sn2 = getParameterByName('tokenid');
-		alert(sn1+"/n "+sn2);
+		<script> 
+        window.onload=function(){
+          var map;
+	
+          function initialize() {
+              var myLatlng = new google.maps.LatLng(12.988343292929702, 77.55948770111081);
 
-		//document.getElementById("write").innerHTML = sn;
-		*/
-		
-		</script>
+              var myOptions = {
+                  zoom: 13,
+                  center: myLatlng,
+                  mapTypeId: google.maps.MapTypeId.ROADMAP
+              };
+              map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+
+              var marker = new google.maps.Marker({
+                  draggable: true,
+                  position: myLatlng,
+                  map: map,
+                  title: "Your location"
+			  });
+			  
+			  const flightPlanCoordinates = [
+         		 {
+            		lat: 12.988343292929702,
+            		lng: 77.55948770111081
+          			},
+         		 {
+            		lat: 12.997668395808956,
+            		lng: 77.55322206085202
+          			},
+				];
+				
+
+	const flightPath = new google.maps.Polyline({
+          path: flightPlanCoordinates,
+          geodesic: true,
+          strokeColor: "#FF0000",
+          strokeOpacity: 1.0,
+          strokeWeight: 2
+        });
+        flightPath.setMap(map);
+
+              google.maps.event.addListener(marker, 'dragend', function (event) {
+				var point , markervalue;
+                  document.getElementById("lat").value = event.latLng.lat();
+                  document.getElementById("long").value = event.latLng.lng();
+                //   infoWindow.open(map, marker);
+			    
+			  		
+					
+
+					function save() {
+				    point = marker.getPosition();
+					//alert("Save this location" +point+"?" );
+						
+  					var txt;
+ 					var r = confirm("Save Location");
+  					if (r == true) {
+	  				
+	  				markervalue=(JSON.stringify(point));
+					alert(markervalue);  
+    				// txt = "You pressed OK!";
+					localStorage.setItem('markervalue', markervalue);
+					
+
+					alert("Location Saved");
+  					} else {
+    				// txt = "You pressed Cancel!";
+					alert("Please Select New Location");
+  					}
+				//   document.getElementById("demo").innerHTML = txt;
+				}
+
+				save();
+					
+
+              });
+          }
+          google.maps.event.addDomListener(window, "load", initialize());
+        }
+
+
+    </script>  
+
                
 		<script>
 			setTimeout(()=>{
@@ -306,7 +376,7 @@
 
 	
 	</head>
-	<body>
+	<body class="map-page">
 
 		<!-- Main Wrapper -->
 		<div class="main-wrapper">
@@ -926,6 +996,17 @@
 									<input type="Number" class="form-control" id="ClincGST" placeholder="Please Enter GST no">
 								</div>
 							</div>
+						   
+						   <div class="col-12 col-md-4">
+							   
+								<div class="form-group add-more">
+									<br><br>
+									<div class="add-more">
+										<a class="edit-link" data-toggle="modal" href="#edit_time_slot"><i class="fa fa-plus-circle"></i>Pin your location</a>
+									</div>
+									
+								</div>
+							</div>
 							
 						</div><!----End-->
 
@@ -1368,7 +1449,42 @@
 		   
 		</div>
 		<!-- /Main Wrapper -->
+		
+		<div class="modal fade custom-modal" id="edit_time_slot">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">Pin your location</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						
+						
+				    <div style="display:flex;flex-direction:row;justify-content: space-evenly;margin-top:10%;margin-bottom:5%;">
+					   Latitude: <input id="lat" name="lat" val="40.713956" style="width:20%;"/> 
+				Longitude: <input id="long" name="long" val="74.006653"   style="width:20%;"/> 
+					</div>
+                <div id="map_canvas" style="height:60%;"></div>
+                
+	                <!-- map-->
+	          		<br><br>
+						<form>
+							<div class="submit-section text-center">
+								<button type="submit" class="btn btn-primary submit-btn">Save</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
 	  
+		
+		
+		
+		
+		
 		<!-- jQuery -->
 		<script src="assets/js/jquery.min.js"></script>
 		
@@ -1400,6 +1516,11 @@
 						
 		<script src="assets/js/script.js"></script>
 		<script src="assets/js/wizard.js"></script>
+		
+		<!-- Custom JS -->
+		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD6adZVdzTvBpE2yBRK8cDfsss8QXChK0I"></script>
+		<script src="assets/js/map.js"></script>
+		
 		
 		<script type="text/javascript">
 		
