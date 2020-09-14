@@ -62,88 +62,88 @@
 	</style>
 		
 		<script> 
-        window.onload=function(){
-          var map;
+    //     window.onload=function(){
+    //       var map;
 	
-          function initialize() {
-              var myLatlng = new google.maps.LatLng(12.988343292929702, 77.55948770111081);
+    //       function initialize() {
+    //           var myLatlng = new google.maps.LatLng(12.988343292929702, 77.55948770111081);
 
-              var myOptions = {
-                  zoom: 13,
-                  center: myLatlng,
-                  mapTypeId: google.maps.MapTypeId.ROADMAP
-              };
-              map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+    //           var myOptions = {
+    //               zoom: 13,
+    //               center: myLatlng,
+    //               mapTypeId: google.maps.MapTypeId.ROADMAP
+    //           };
+    //           map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
 
-              var marker = new google.maps.Marker({
-                  draggable: true,
-                  position: myLatlng,
-                  map: map,
-                  title: "Your location"
-			  });
+    //           var marker = new google.maps.Marker({
+    //               draggable: true,
+    //               position: myLatlng,
+    //               map: map,
+    //               title: "Your location"
+	// 		  });
 			  
-			  const flightPlanCoordinates = [
-         		 {
-            		lat: 12.988343292929702,
-            		lng: 77.55948770111081
-          			},
-         		 {
-            		lat: 12.997668395808956,
-            		lng: 77.55322206085202
-          			},
-				];
+	// 		  const flightPlanCoordinates = [
+    //      		 {
+    //         		lat: 12.988343292929702,
+    //         		lng: 77.55948770111081
+    //       			},
+    //      		 {
+    //         		lat: 12.997668395808956,
+    //         		lng: 77.55322206085202
+    //       			},
+	// 			];
 				
 
-	const flightPath = new google.maps.Polyline({
-          path: flightPlanCoordinates,
-          geodesic: true,
-          strokeColor: "#FF0000",
-          strokeOpacity: 1.0,
-          strokeWeight: 2
-        });
-        flightPath.setMap(map);
+	// const flightPath = new google.maps.Polyline({
+    //       path: flightPlanCoordinates,
+    //       geodesic: true,
+    //       strokeColor: "#FF0000",
+    //       strokeOpacity: 1.0,
+    //       strokeWeight: 2
+    //     });
+    //     flightPath.setMap(map);
 
-              google.maps.event.addListener(marker, 'dragend', function (event) {
-				var point , markervalue;
-                  document.getElementById("lat").value = event.latLng.lat();
-                  document.getElementById("long").value = event.latLng.lng();
-                //   infoWindow.open(map, marker);
+    //           google.maps.event.addListener(marker, 'dragend', function (event) {
+	// 			var point , markervalue;
+    //               document.getElementById("lat").value = event.latLng.lat();
+    //               document.getElementById("long").value = event.latLng.lng();
+    //             //   infoWindow.open(map, marker);
 			    
 			  		
 					
 
-					function save() {
-				    point = marker.getPosition();
-					//alert("Save this location" +point+"?" );
+	// 				function save() {
+	// 			    point = marker.getPosition();
+	// 				//alert("Save this location" +point+"?" );
 						
-  					var txt;
- 					var r = confirm("Save Location");
-  					if (r == true) {
+  	// 				var txt;
+ 	// 				var r = confirm("Save Location");
+  	// 				if (r == true) {
 	  				
-	  				markervalue=(JSON.stringify(point));
-					alert(markervalue);  
-    				// txt = "You pressed OK!";
-					localStorage.setItem('markervalue', markervalue);
+	//   				markervalue=(JSON.stringify(point));
+	// 				alert(markervalue);  
+    // 				// txt = "You pressed OK!";
+	// 				localStorage.setItem('markervalue', markervalue);
 					
 
-					alert("Location Saved");
-  					} else {
-    				// txt = "You pressed Cancel!";
-					alert("Please Select New Location");
-  					}
-				//   document.getElementById("demo").innerHTML = txt;
-				}
+	// 				alert("Location Saved");
+  	// 				} else {
+    // 				// txt = "You pressed Cancel!";
+	// 				alert("Please Select New Location");
+  	// 				}
+	// 			//   document.getElementById("demo").innerHTML = txt;
+	// 			}
 
-				save();
+	// 			save();
 					
 
-              });
-          }
-          google.maps.event.addDomListener(window, "load", initialize());
-        }
+    //           });
+    //       }
+    //       google.maps.event.addDomListener(window, "load", initialize());
+    //     }
 
 
-    </script>  
+    // </script>  
 
                
 		<script>
@@ -1472,9 +1472,9 @@
                 
 	                <!-- map-->
 	          		<br><br>
-						<form>
+						
 							<div class="submit-section text-center">
-								<button type="submit" class="btn btn-primary submit-btn">Save</button>
+								<button type="submit" class="btn btn-primary submit-btn" onclick="cordinate()">Save</button>
 							</div>
 						</form>
 					</div>
@@ -1490,16 +1490,90 @@
 		<!-- jQuery -->
 		
 <script>
+	var marker; 
+	var latitude1;
+	var  longitude1;
+
 		function myMap() {
-		var mapProp= {
-		  center:new google.maps.LatLng(51.508742,-0.120850),
-		  zoom:5,
-		};
-		var map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
+		// var mapProp= {
+		//   center:new google.maps.LatLng(51.508742,-0.120850),
+		//   zoom:5,
+		// };
+		// var map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
+
+
+		var map;
+	
+          function initialize() {
+              var myLatlng = new google.maps.LatLng(12.988343292929702, 77.55948770111081);
+
+              var myOptions = {
+                  zoom: 13,
+                  center: myLatlng,
+                  mapTypeId: google.maps.MapTypeId.ROADMAP
+              };
+              map = new google.maps.Map(document.getElementById("googleMap"), myOptions);
+
+              marker = new google.maps.Marker({
+                  draggable: true,
+                  position: myLatlng,
+                  map: map,
+                  title: "Your location"
+			  });
+			  
+			  const flightPlanCoordinates = [
+         		 {
+            		lat: 12.988343292929702,
+            		lng: 77.55948770111081
+          			},
+         		 {
+            		lat: 12.997668395808956,
+            		lng: 77.55322206085202
+          			},
+				];
+				
+
+	const flightPath = new google.maps.Polyline({
+          path: flightPlanCoordinates,
+          geodesic: true,
+          strokeColor: "#FF0000",
+          strokeOpacity: 1.0,
+          strokeWeight: 2
+        });
+        flightPath.setMap(map);
+
+              google.maps.event.addListener(marker, 'dragend', function (event) {
+				var point , markervalue;
+                  document.getElementById("lat").value = event.latLng.lat();
+				  document.getElementById("long").value = event.latLng.lng();
+				  
+				   latitude1=event.latLng.lat();
+				   longitude1=event.latLng.lng();
+					
+
+              });
+          }
+		  google.maps.event.addDomListener(window, "load", initialize());
+		  
+	
+
 		}
+		function cordinate() {
+
+
+			var lat= document.getElementById("lat").value ;
+			var long=  document.getElementById("long").value ;
+
+				localStorage.setItem("lat",lat);
+				localStorage.setItem("long",long);
+
+			
+
+			}
+	
 </script>
 		
-		<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY&callback=myMap"></script>
+		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD6adZVdzTvBpE2yBRK8cDfsss8QXChK0I&callback=myMap"></script>
 		<script src="assets/js/jquery.min.js"></script>
 		
 		<script src="assets/js/jquery.min.js"></script>
@@ -1931,6 +2005,13 @@ $.ajax(settings).done(function (response) {
 			function saveClinicInfo()
 			{
 			var Docno;
+
+			var lat_value=localStorage.getItem("lat"); 
+			var long_value=localStorage.getItem("long"); 
+			
+			console.log(lat_value);
+			console.log(long_value);
+
 			console.log('call happening 1')
 			// var clinicNme = document.getElementById("clinicName").value;
 			// var clinicNme = clinicNme.options[clinicNme.selectedIndex].value;
@@ -1949,7 +2030,7 @@ $.ajax(settings).done(function (response) {
 
 				var data2 = {
 					
-					
+				
 				/*	"data": JSON.stringify(
 					{"ClinicId":"9",
 					"ClinicName":"Arogya Clinic T ",
@@ -1969,7 +2050,9 @@ $.ajax(settings).done(function (response) {
 					AlternatePhone3: $('#ClincPhone3 ').val(),
 					Amount:$('#ClincAmount').val(),
 				    GST: $('#ClincGST').val(),
-					OrderBy:"1" //Look Into UI Add more to update
+					OrderBy:"1", //Look Into UI Add more to update
+					Lat: lat_value,
+					Long: long_value
 					
 
 					/*ClinicId:"9",
@@ -2019,28 +2102,28 @@ $.ajax(settings).done(function (response) {
 			});
 
 
-			$.ajax({
-				url: "http://www.rocketmedecin.com/rocketmed/api/ClinicInfo/"+docIDGlobal,
-				method:"GET",
-				async: false,
-				contentType: 'application/json; charset=utf-8',
-				data:"["+formatdata+"]",
-				timeout: 36000, 
-				headers: { "Authorization": authToken },
-				error: function(xhr, status, error) {
-  					var err = eval("(" + xhr.responseText + ")");
-  					console.log("Error Message"+err.Message);	
-					console.log('ajax call happening 1')	
-				 alert("Error saving Clinic Info. Pease Try Again");
+			// $.ajax({
+			// 	url: "http://www.rocketmedecin.com/rocketmed/api/ClinicInfo/"+docIDGlobal,
+			// 	method:"GET",
+			// 	async: false,
+			// 	contentType: 'application/json; charset=utf-8',
+			// 	data:"["+formatdata+"]",
+			// 	timeout: 36000, 
+			// 	headers: { "Authorization": authToken },
+			// 	error: function(xhr, status, error) {
+  			// 		var err = eval("(" + xhr.responseText + ")");
+  			// 		console.log("Error Message"+err.Message);	
+			// 		console.log('ajax call happening 1')	
+			// 	 alert("Error saving Clinic Info. Pease Try Again");
 					
-				},
-				success: function(response1){ 
-						console.log(response1);
+			// 	},
+			// 	success: function(response1){ 
+			// 			console.log(response1);
 						
-						console.log("Clinic Info Updated : "+response1.ClinicId);
-						alert('Clinic/Hospital Info Updated Successfully !!');
-						}
-			});
+			// 			console.log("Clinic Info Updated : "+response1.ClinicId);
+			// 			alert('Clinic/Hospital Info Updated Successfully !!');
+			// 			}
+			// });
 			
 			}
 
