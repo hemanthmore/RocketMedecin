@@ -1,0 +1,42 @@
+{"DoctorDtls":
+	[{	"DoctorId":4,
+		"DoctorTypeId":1,
+		"DoctorNo":"4",
+		"SSN":null,
+		"Firstname":"Kumar",
+		"Middlename":null,
+		"Lastname":"Ambuj",
+		"Gender":"Male",
+		"Mobile1":"9876543210",
+		"Mobile2":null,
+		"EmailId1":"ambujtst@media.com",
+		"EmailId2":null,
+		"DOB":"1991-03-07T00:00:00",
+		"PractCertCode":null,
+		"DoctorProfileHandById":1,
+		"Phone1":"1111111111",
+		"Phone2":"2222222222",
+		"Phone3":"3333333333",
+		"Biography":"This is a test Biography",
+		"AddressLine1":"Addr Line 1, Test 1",
+		"AddressLine2":"Addr Line 2, Test 2",
+		"CityId":3,
+		"StateId":12,
+		"Zipcode":"562125",
+		"CountryId":1,
+		"GovtproofId":2,
+		"GovtproofNo":"P2222",
+		"DoctorDesignationDisplay":"MD (Cardio)",
+		"LinkedToClinic":true,
+		"LinkedToHosp":false
+	}]
+	
+	 $('#append_list').append('<p>' + data.DoctorDtls[0].DoctorId + '</p>');
+		     $('#firstname1').append('<p>' + data.DoctorDtls[0].Firstname + '</p>');
+			   $('#lastname').append('<p>' + data.DoctorDtls[0].Lastname + '</p>');
+			     $('#email_ID').append('<p>' + data.DoctorDtls[0].EmailId1 + '</p>');
+				      $('#first_name').append('<p>' + data.DoctorDtls[0].Firstname + '</p>');
+					       $('#nav_name').append(  data.DoctorDtls[0].Firstname );
+	
+	DoctorDtls[0].DoctorId
+}
