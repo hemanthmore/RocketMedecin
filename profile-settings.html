@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html> 
+<!DOCTYPE html> 
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
@@ -1107,9 +1107,8 @@
 				loadProfilepic(patient_id);
 				var btnUpload = $("#profilepic");
 				btnUpload.on("change", function (e) {
-
 					let files = new FormData(),
-						url = 'http://www.rocketmedecin.com/rocketmed/api/UpFiles/' + patient_id + '?usertype=pat&doctype=1';
+					url = 'http://www.rocketmedecin.com/rocketmed/api/UpFiles/' + patient_id + '?usertype=pat&doctype=1';
 					files.append('image', document.getElementById('profilepic').files[0]);
 					var settings = {
 						"url": url,
@@ -1122,13 +1121,10 @@
 						"headers": {
 							"Authorization": authToken
 						}
-
 					};
-
 					$.ajax(settings).done(function (response) {
 						console.log(response);
 						loadProfilepic(patient_id);
-
 					});
 
 				});
@@ -1142,42 +1138,35 @@
 					}
 				};
 				$.ajax(settings).done(function (response) {
-
 					var data = $.parseJSON(response);
+					var prof_data=[];
+					length = data.PatFileList.length
+					for(i=0;i<length;i++) {
+						if(data.PatFileList[i]["DocType"] == 1){
+							prof_data.push(data.PatFileList[i]);
+						}
 
-					console.log(data.PatFileList.length);
-					var last = data.PatFileList[data.PatFileList.length - 1]
-					console.log(last);
+					}
+                    var last = prof_data[prof_data.length - 1]
 					var PatientDocumentId = last.PatientDocumentId;
-					console.log(PatientDocumentId);
 					var source = last.DocPath;
-					console.log(source);
 					updateProfilepic(PatientDocumentId);
 
 				});
 
 				function updateProfilepic(docid) {
 					console.log("updating image");
-
 					var settings = {
-
 						"url": "http://www.rocketmedecin.com/rocketmed/api/UpFiles/" + docid + "?usertype=pat",
-
 						"method": "GET",
-
 						"timeout": 0,
 						"headers": {
 							"Authorization": authToken
 						}
-
 					};
-
-					$.ajax(settings).done(function (response) {
-						console.log(response);
-					
+					$.ajax(settings).done(function (response) {					
 						$("#profileimage").attr("src", "data: image / jpeg; base64," + response);
                         $("#user-img").attr("src", "data: image / jpeg; base64," + response);
-
 					});
 
 
