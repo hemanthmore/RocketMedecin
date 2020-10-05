@@ -21,6 +21,13 @@
 		<!-- Main CSS -->
 		<link rel="stylesheet" href="assets/css/style.css">
 		
+		
+		<!-- Daterangepikcer CSS -->
+		<link rel="stylesheet" href="assets/plugins/daterangepicker/daterangepicker.css">
+		
+		<!-- Datetimepicker CSS -->
+		<link rel="stylesheet" href="assets/css/bootstrap-datetimepicker.min.css">
+		
 		<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
 		<!--[if lt IE 9]>
 			<script src="assets/js/html5shiv.min.js"></script>
@@ -338,202 +345,64 @@
 								<div class="col-sm-12">
 									<div class="card">
 										<div class="card-body">
-											<h4 class="card-title">Apollo Clinic</h4>
+											<h4 class="card-title">Schedule Timings</h4>
 											<div class="profile-box">
 												<div class="row">
 
 													<div class="col-lg-4">
 														<div class="form-group">               
-															<label>Timing Slot Duration</label>
-															<select class="select form-control">
+															<label>Timing Slot Duration (in mins)</label>
+															<select id="slots_time" class="select form-control">
 																<option>-</option>
-																<option>15 mins</option>
-																<option >30 mins</option>  
-																<option>45 mins</option>
-																<option selected="selected">1 Hour</option>
+																<option>15</option>
+																<option >30</option>  
+																<option>45</option>
+																<option selected="selected">60</option>
 															</select>
 														</div>
 													</div>
-
-												</div>     
-												<div class="row">
-													<div class="col-md-12">
-														<div class="card schedule-widget mb-0">
-														
-															<!-- Schedule Header -->
-															<div class="schedule-header">
-															
-																<!-- Schedule Nav -->
-																<div class="schedule-nav">
-																	<ul class="nav nav-tabs nav-justified">
-																		<li class="nav-item">
-																			<a class="nav-link" data-toggle="tab" href="#slot_sunday">Sunday</a>
-																		</li>
-																		<li class="nav-item">
-																			<a class="nav-link " data-toggle="tab" href="#slot_monday">Monday</a>
-																		</li>
-																		<li class="nav-item">
-																			<a class="nav-link" data-toggle="tab" href="#slot_tuesday">Tuesday</a>
-																		</li>
-																		<li class="nav-item">
-																			<a class="nav-link" data-toggle="tab" href="#slot_wednesday">Wednesday</a>
-																		</li>
-																		<li class="nav-item">
-																			<a class="nav-link" data-toggle="tab" href="#slot_thursday">Thursday</a>
-																		</li>
-																		<li class="nav-item">
-																			<a class="nav-link active" data-toggle="tab" href="#slot_friday">Friday</a>
-																		</li>
-																		<li class="nav-item">
-																			<a class="nav-link" data-toggle="tab" href="#slot_saturday">Saturday</a>
-																		</li>
-																	</ul>
-																</div>
-																<!-- /Schedule Nav -->
-																
-															</div>
-															<!-- /Schedule Header -->
-															
-															<!-- Schedule Content -->
-															<div class="tab-content schedule-cont">
-															
-																<!-- Sunday Slot -->
-																<div id="slot_sunday" class="tab-pane fade">
-																	<h4 class="card-title d-flex justify-content-between">
-																		<span>Time Slots</span> 
-																		<a class="edit-link" data-toggle="modal" href="#add_time_slot"><i class="fa fa-plus-circle"></i> Add Slot</a>
-																	</h4>
-																	<p class="text-muted mb-0">Not Available</p>
-																</div>
-																<!-- /Sunday Slot -->
-
-																<!-- Monday Slot -->
-																<div id="slot_monday" class="tab-pane fade show active">
-																	<h4 class="card-title d-flex justify-content-between">
-																		<span>Time Slots</span> 
-																		<a class="edit-link" data-toggle="modal" href="#edit_time_slot"><i class="fa fa-edit mr-1"></i>Edit</a>
-																	</h4>
-																	
-																	<!-- Slot List -->
-																	<div class="doc-times">
-																		<div class="doc-slot-list">
-																			8:00 pm - 11:30 pm
-																			<a href="javascript:void(0)" class="delete_schedule">
-																				<i class="fa fa-times"></i>
-																			</a>
-																		</div>
-																		<div class="doc-slot-list">
-																			11:30 pm - 1:30 pm
-																			<a href="javascript:void(0)" class="delete_schedule">
-																				<i class="fa fa-times"></i>
-																			</a>
-																		</div>
-																		<div class="doc-slot-list">
-																			3:00 pm - 5:00 pm
-																			<a href="javascript:void(0)" class="delete_schedule">
-																				<i class="fa fa-times"></i>
-																			</a>
-																		</div>
-																		<div class="doc-slot-list">
-																			6:00 pm - 11:00 pm
-																			<a href="javascript:void(0)" class="delete_schedule">
-																				<i class="fa fa-times"></i>
-																			</a>
-																		</div>
-																	</div>
-																	<!-- /Slot List -->
-																	
-																</div>
-																<!-- /Monday Slot -->
-
-																<!-- Tuesday Slot -->
-																<div id="slot_tuesday" class="tab-pane fade">
-																	<h4 class="card-title d-flex justify-content-between">
-																		<span>Time Slots</span> 
-																		<a class="edit-link" data-toggle="modal" href="#add_time_slot"><i class="fa fa-plus-circle"></i> Add Slot</a>
-																	</h4>
-																	<p class="text-muted mb-0">Not Available</p>
-																</div>
-																<!-- /Tuesday Slot -->
-
-																<!-- Wednesday Slot -->
-																<div id="slot_wednesday" class="tab-pane fade">
-																	<h4 class="card-title d-flex justify-content-between">
-																		<span>Time Slots</span> 
-																		<a class="edit-link" data-toggle="modal" href="#add_time_slot"><i class="fa fa-plus-circle"></i> Add Slot</a>
-																	</h4>
-																	<p class="text-muted mb-0">Not Available</p>
-																</div>
-																<!-- /Wednesday Slot -->
-
-																<!-- Thursday Slot -->
-																<div id="slot_thursday" class="tab-pane fade">
-																	<h4 class="card-title d-flex justify-content-between">
-																		<span>Time Slots</span> 
-																		<a class="edit-link" data-toggle="modal" href="#add_time_slot"><i class="fa fa-plus-circle"></i> Add Slot</a>
-																	</h4>
-																	<p class="text-muted mb-0">Not Available</p>
-																</div>
-																<!-- /Thursday Slot -->
-
-																<!-- Friday Slot -->
-																<div id="slot_friday" class="tab-pane fade">
-																	<h4 class="card-title d-flex justify-content-between">
-																		<span>Time Slots</span> 
-																		<a class="edit-link" data-toggle="modal" href="#add_time_slot"><i class="fa fa-plus-circle"></i> Add Slot</a>
-																	</h4>
-																	<p class="text-muted mb-0">Not Available</p>
-																</div>
-																<!-- /Friday Slot -->
-
-																<!-- Saturday Slot -->
-																<div id="slot_saturday" class="tab-pane fade">
-																	<h4 class="card-title d-flex justify-content-between">
-																		<span>Time Slots</span> 
-																		<a class="edit-link" data-toggle="modal" href="#add_time_slot"><i class="fa fa-plus-circle"></i> Add Slot</a>
-																	</h4>
-																	<p class="text-muted mb-0">Not Available</p>
-																</div>
-																<!-- /Saturday Slot -->
-
-															</div>
-															<!-- /Schedule Content -->
-															
-														</div>
+													
+													<div class="col-12 col-md-4">
+												<div class="form-group">
+													<label>Availability starting date</label>
+													<div   class="cal-icon">
+														<input id="starting_date" type="text" class="form-control datetimepicker" placeholder="mm/dd/yyyy" data-date-format="MM/DD/YYYY"  >
+													</div>
+												</div>
+											</div>	
+													
+													
+													<div class="col-12 col-md-4">
+												<div class="form-group">
+													<label>Availability ending date</label>
+													<div class="cal-icon">
+														<input id="end_date" type="text" class="form-control datetimepicker" placeholder="mm/dd/yyyy"  data-date-format="MM/DD/YYYY">
 													</div>
 												</div>
 											</div>
-										</div>
+													
+													
+
+												</div>
+												
+<!--
+												<div class="row">
+								<div class="col-12 col-sm-4 col-md-6">
+									<h4 class="mb-1">11 November 2019</h4>
+									<p class="text-muted">Monday</p>
+								</div>
+								<div class="col-12 col-sm-8 col-md-6 text-sm-right">
+									<div class="bookingrange btn btn-white btn-sm mb-3">
+										<i class="far fa-calendar-alt mr-2"></i>
+										<span></span>
+										<i class="fas fa-chevron-down ml-2"></i>
 									</div>
 								</div>
-								
-								
-								
-								
-								
-								
-								
-								<div class="col-sm-12">
-									<div class="card">
-										<div class="card-body">
-											<h4 class="card-title">Hosmat Hospital</h4>
-											<div class="profile-box">
-												<div class="row">
+                            </div>
 
-													<div class="col-lg-4">
-														<div class="form-group">               
-															<label>Timing Slot Duration</label>
-															<select class="select form-control">
-																<option>-</option>
-																<option>15 mins</option>
-																<option selected="selected">30 mins</option>  
-																<option>45 mins</option>
-																<option>1 Hour</option>
-															</select>
-														</div>
-													</div>
-
-												</div>     
+-->
+											
+												
 												<div class="row">
 													<div class="col-md-12">
 														<div class="card schedule-widget mb-0">
@@ -542,6 +411,7 @@
 															<div class="schedule-header">
 															
 																<!-- Schedule Nav -->
+<!--
 																<div class="schedule-nav">
 																	<ul class="nav nav-tabs nav-justified">
 																		<li class="nav-item">
@@ -567,6 +437,7 @@
 																		</li>
 																	</ul>
 																</div>
+-->
 																<!-- /Schedule Nav -->
 																
 															</div>
@@ -589,23 +460,24 @@
 																<div id="slot_monday" class="tab-pane fade show active">
 																	<h4 class="card-title d-flex justify-content-between">
 																		<span>Time Slots</span> 
-																		<a class="edit-link" data-toggle="modal" href="#edit_time_slot"><i class="fa fa-edit mr-1"></i>Edit</a>
+																		<a class="edit-link" data-toggle="modal" href="#edit_time_slot"><i class="fa fa-edit mr-1"></i>Add Slot</a>
 																	</h4>
 																	
 																	<!-- Slot List -->
-																	<div class="doc-times">
+																	<div id="doc_times" class="doc-times">
 																		<div class="doc-slot-list">
-																			8:00 pm - 11:30 pm
+																			8:00 am - 12:30 pm
 																			<a href="javascript:void(0)" class="delete_schedule">
 																				<i class="fa fa-times"></i>
 																			</a>
 																		</div>
 																		<div class="doc-slot-list">
-																			11:30 pm - 1:30 pm
+																			2:30 pm - 6:30 pm
 																			<a href="javascript:void(0)" class="delete_schedule">
 																				<i class="fa fa-times"></i>
 																			</a>
 																		</div>
+<!--
 																		<div class="doc-slot-list">
 																			3:00 pm - 5:00 pm
 																			<a href="javascript:void(0)" class="delete_schedule">
@@ -618,6 +490,7 @@
 																				<i class="fa fa-times"></i>
 																			</a>
 																		</div>
+-->
 																	</div>
 																	<!-- /Slot List -->
 																	
@@ -625,6 +498,7 @@
 																<!-- /Monday Slot -->
 
 																<!-- Tuesday Slot -->
+<!--
 																<div id="slot_tuesday" class="tab-pane fade">
 																	<h4 class="card-title d-flex justify-content-between">
 																		<span>Time Slots</span> 
@@ -632,9 +506,11 @@
 																	</h4>
 																	<p class="text-muted mb-0">Not Available</p>
 																</div>
+-->
 																<!-- /Tuesday Slot -->
 
 																<!-- Wednesday Slot -->
+<!--
 																<div id="slot_wednesday" class="tab-pane fade">
 																	<h4 class="card-title d-flex justify-content-between">
 																		<span>Time Slots</span> 
@@ -642,9 +518,11 @@
 																	</h4>
 																	<p class="text-muted mb-0">Not Available</p>
 																</div>
+-->
 																<!-- /Wednesday Slot -->
 
 																<!-- Thursday Slot -->
+<!--
 																<div id="slot_thursday" class="tab-pane fade">
 																	<h4 class="card-title d-flex justify-content-between">
 																		<span>Time Slots</span> 
@@ -652,9 +530,11 @@
 																	</h4>
 																	<p class="text-muted mb-0">Not Available</p>
 																</div>
+-->
 																<!-- /Thursday Slot -->
 
 																<!-- Friday Slot -->
+<!--
 																<div id="slot_friday" class="tab-pane fade">
 																	<h4 class="card-title d-flex justify-content-between">
 																		<span>Time Slots</span> 
@@ -662,9 +542,11 @@
 																	</h4>
 																	<p class="text-muted mb-0">Not Available</p>
 																</div>
+-->
 																<!-- /Friday Slot -->
 
 																<!-- Saturday Slot -->
+<!--
 																<div id="slot_saturday" class="tab-pane fade">
 																	<h4 class="card-title d-flex justify-content-between">
 																		<span>Time Slots</span> 
@@ -672,12 +554,19 @@
 																	</h4>
 																	<p class="text-muted mb-0">Not Available</p>
 																</div>
+-->
 																<!-- /Saturday Slot -->
-
 															</div>
 															<!-- /Schedule Content -->
 															
+															
+															
 														</div>
+														<br><br>
+														<div class="submit-section proceed-btn text-left">
+															<button type="button"  id="btnOk" " class="btn btn-primary submit-btn">Save</button>
+
+							</div>
 													</div>
 												</div>
 											</div>
@@ -855,9 +744,9 @@
 											<div class="col-12 col-md-6">
 												<div class="form-group">
 													<label>Start Time</label>
-													<select class="form-control">
+													<select name="start_time" class="form-control">
 														<option>-</option>
-														<option>12.00 am</option>
+														<option selected>12.00 am</option>
 														<option>12.30 am</option>  
 														<option>1.00 am</option>
 														<option>1.30 am</option>
@@ -867,10 +756,10 @@
 											<div class="col-12 col-md-6">
 												<div class="form-group">
 													<label>End Time</label>
-													<select class="form-control">
+													<select name="end_time" class="form-control">
 														<option>-</option>
 														<option>12.00 am</option>
-														<option>12.30 am</option>  
+														<option selected>12.30 am</option>  
 														<option>1.00 am</option>
 														<option>1.30 am</option>
 													</select>
@@ -885,7 +774,7 @@
 								<a href="javascript:void(0);" class="add-hours"><i class="fa fa-plus-circle"></i> Add More</a>
 							</div>
 							<div class="submit-section text-center">
-								<button type="submit" class="btn btn-primary submit-btn">Save Changes</button>
+								<button type="submit"  class="btn btn-primary submit-btn">Save Changes</button>
 							</div>
 						</form>
 					</div>
@@ -899,13 +788,13 @@
 			<div class="modal-dialog modal-dialog-centered">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h5 class="modal-title">Edit Time Slots</h5>
+						<h5 class="modal-title">Add Time Slots</h5>
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
 					</div>
 					<div class="modal-body">
-						<form>
+						<form id="slots" name ="slots">
 							<div class="hours-info">
 								<div class="row form-row hours-cont">
 									<div class="col-12 col-md-10">
@@ -913,7 +802,7 @@
 											<div class="col-12 col-md-6">
 												<div class="form-group">
 													<label>Start Time</label>
-													<select class="form-control">
+													<select id="start_time_1" name="start_time" class="form-control">
 														<option>-</option>
 														<option selected>12.00 am</option>
 														<option>12.30 am</option>  
@@ -925,7 +814,7 @@
 											<div class="col-12 col-md-6">
 												<div class="form-group">
 													<label>End Time</label>
-													<select class="form-control">
+													<select id="end_time_1" name="end_time" class="form-control">
 														<option>-</option>
 														<option>12.00 am</option>
 														<option selected>12.30 am</option>  
@@ -944,7 +833,7 @@
 											<div class="col-12 col-md-6">
 												<div class="form-group">
 													<label>Start Time</label>
-													<select class="form-control">
+													<select id="start_time_2" name="start_time" class="form-control">
 														<option>-</option>
 														<option>12.00 am</option>
 														<option selected>12.30 am</option>
@@ -956,7 +845,7 @@
 											<div class="col-12 col-md-6">
 												<div class="form-group">
 													<label>End Time</label>
-													<select class="form-control">
+													<select id="end_time_2" name="end_time" class="form-control">
 														<option>-</option>
 														<option>12.00 am</option>
 														<option>12.30 am</option>
@@ -976,7 +865,7 @@
 											<div class="col-12 col-md-6">
 												<div class="form-group">
 													<label>Start Time</label>
-													<select class="form-control">
+													<select  id="start_time_3" name="start_time" class="form-control">
 														<option>-</option>
 														<option>12.00 am</option>
 														<option>12.30 am</option>
@@ -988,7 +877,7 @@
 											<div class="col-12 col-md-6">
 												<div class="form-group">
 													<label>End Time</label>
-													<select class="form-control">
+													<select id="end_time_3" name ="end_time" class="form-control">
 														<option>-</option>
 														<option>12.00 am</option>
 														<option>12.30 am</option>
@@ -1008,7 +897,7 @@
 								<a href="javascript:void(0);" class="add-hours"><i class="fa fa-plus-circle"></i> Add More</a>
 							</div>
 							<div class="submit-section text-center">
-								<button type="submit" class="btn btn-primary submit-btn">Save Changes</button>
+								<button type="button"  id="btnSave" " class="btn btn-primary submit-btn">Save Changes</button>
 							</div>
 						</form>
 					</div>
@@ -1016,23 +905,137 @@
 			</div>
 		</div>
 		<!-- /Edit Time Slot Modal -->
-	  
-		<!-- jQuery -->
+	  <!-- jQuery -->
 		<script src="assets/js/jquery.min.js"></script>
 		
 		<!-- Bootstrap Core JS -->
 		<script src="assets/js/popper.min.js"></script>
 		<script src="assets/js/bootstrap.min.js"></script>
 		
+		<!-- Select2 JS -->
+		<script src="assets/plugins/select2/js/select2.min.js"></script>
+		
+		<!-- Datetimepicker JS -->
+		<script src="assets/js/moment.min.js"></script>
+		<script src="assets/js/bootstrap-datetimepicker.min.js"></script>
+		
 		<!-- Sticky Sidebar JS -->
         <script src="assets/plugins/theia-sticky-sidebar/ResizeSensor.js"></script>
         <script src="assets/plugins/theia-sticky-sidebar/theia-sticky-sidebar.js"></script>
 		
-		<!-- Select2 JS -->
-		<script src="assets/plugins/select2/js/select2.min.js"></script>
+		<!-- Bootstrap Tagsinput JS -->
+		<script src="assets/plugins/bootstrap-tagsinput/js/bootstrap-tagsinput.js"></script>
 		
 		<!-- Custom JS -->
 		<script src="assets/js/script.js"></script>
+		
+		<!-- Dropzone JS -->
+		<script src="assets/plugins/dropzone/dropzone.min.js"></script>
+		
+		<script type="text/javascript">
+           var DOC_id,clinic_id;
+		   var start_time_arr =[];
+			  var end_time_arr =[];
+		   window.onload = function () {
+
+			authToken= " bearer " +localStorage.getItem("tokenid");
+			user_ID=localStorage.getItem("docid");
+			 DOC_id = user_ID.slice(3,user_ID.length);
+		   }
+
+
+
+		   
+           $(function() {
+		
+
+		  $("#btnSave").click(function(){
+			  console.log("hhs");
+			  
+			  console.log($("#start_time_1").val());
+			  $('select[name="start_time"]').each(function(i){
+  					 var value =$(this).val();
+					   console.log(value);
+					   start_time_arr.push(value);
+
+			});
+			$('select[name="end_time"]').each(function(i){
+  					 var value =$(this).val();
+					   console.log(value);
+					   end_time_arr.push(value);
+			});
+			
+			var form = $("#doc_times");
+			var html_string =""
+			var length = end_time_arr.length;
+			for (i = 0; i < length; i++) {
+				html_string += "<div class='doc-slot-list'>" + start_time_arr[i] + " - " + end_time_arr[i] + "<a href='javascript:void(0)' class='delete_schedule'><i class='fa fa-times'></i></a></div>";
+            }
+			$('#edit_time_slot').modal('hide');
+			console.log(html_string);
+			form.html(html_string);
+			console.log($("#slots_time").val());
+			dt1= $("#starting_date").val();
+			console.log(dt1);
+			dt2= $("#end_date").val();
+
+			console.log(dt2);
+
+		  });
+
+
+
+
+		  $("#btnOk").click(function(){
+			  console.log("btnok hhs");
+			  console.log(authToken);
+			  var clinic_id;
+
+			  var settings = { 
+				"url": "http://www.rocketmedecin.com/rocketmed/api/ClinicInfo/"+DOC_id, 
+				"method": "GET", 				
+				"timeout": 0,
+				"headers": { "Authorization":  authToken
+				 }
+				}; 
+
+			$.ajax(settings).done(function (response) { 
+
+				console.log("clinicinfores" ,response);
+				var data = $.parseJSON(response);
+				console.log(data["DocClinicDetails"]);
+				clinic_id = 5;
+
+			}); 
+			
+			dt1= $("#starting_date").val();
+			dt2= $("#end_date").val();
+			slot=$("#slots_time").val();
+
+			var data =JSON.stringify({DoctorNo:"4",ClinicId:"5",ScheduledFromDt:dt1.toString(),ScheduledToDt:dt2.toString(),FromTime:"08:00",ToTime:"10:00","Slot":"15"})
+            
+            console.log(data);
+			var settings = { 
+				url: "http://www.rocketmedecin.com/rocketmed/api/DocClinicSche", 
+				method: "POST", 
+				timeout: 0, 
+				data:data,
+				headers: { "Authorization":  authToken
+				 },
+				contentType: 'application/json; charset=utf-8'
+	
+		  };
+		$.ajax(settings).done(function (response) { 
+
+		console.log(response); 
+		alert("the schedule is saved");
+
+});
+             
+		   });
+		});
+		</script>
+		
 		
 	</body>
 </html>
