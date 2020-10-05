@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html> 
+<!DOCTYPE html> 
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
@@ -1766,38 +1766,7 @@
 
 		<!-- Custom JS -->
 		<script src="assets/js/script.js"></script>
-		var form = new FormData();
-
-		form.append("", fileInput.files[0], "/C:/Users/ambkum01/Desktop/MediaNurture/image/DisplayPic.jpg");
-
-
-
-		var settings = {
-
-		"url": "https://localhost:44334/api/UpFiles/5?usertype=doc&doctype=1",
-
-
-		"method": "PUT",
-
-		"timeout": 0,
-
-		"processData": false,
-
-		"mimeType": "multipart/form-data",
-
-		"contentType": false,
-
-		"data": form
-
-		};
-
-
-
-		$.ajax(settings).done(function (response) {
-
-		console.log(response);
-
-		});
+		
 		<script>
 			window.onload = function () {
 
@@ -1811,7 +1780,7 @@
 
 					alert(patient_id);
 					let files = new FormData(),
-						url = 'http://localhost/rocketmed/api/UpFiles/' + patient_id + '?usertype=pat&doctype=1';
+						url = 'http://www.rocketmedecin.com/rocketmed/api/UpFiles/' + patient_id + '?usertype=pat&doctype=1';
                     files.append('image', document.getElementById('profilepic').files[0]);
 					var settings = {
 						"url": url,
@@ -1838,7 +1807,7 @@
 
 			function loadProfilepic(userId) {
                 var settings = {
-                    "url": "http://localhost/rocketmed/api/UpFiles?usertype=pat&userid="+userId,
+                    "url": "http://www.rocketmedecin.com/rocketmed/api/UpFiles?usertype=pat&userid="+userId,
                     "method": "GET",
 					"timeout": 0,
                     "headers": {
@@ -1865,7 +1834,7 @@
 
                     var settings = {
 
-						"url": "http://localhost/rocketmed/api/UpFiles/" + docid + "?usertype=pat",
+						"url": "http://www.rocketmedecin.com/rocketmed/api/UpFiles/" + docid + "?usertype=pat",
 
                         "method": "GET",
 
