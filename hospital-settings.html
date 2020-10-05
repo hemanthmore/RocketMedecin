@@ -54,7 +54,7 @@
 			 	localStorage.setItem("hosIDGlobal",hosIDGlobal);
 
 			 var setting1 = {
-			 "url": "http://www.rocketmedecin.com/rocketmed/api/HospSetInfo/"+HOS_id,
+			 "url": "http://RocketMedecin.com/rocketmed/api//HospSetInfo/"+HOS_id,
 			 "method": "GET",
 			 "timeout": 0,
 			 "headers": { "Authorization":  authToken }
@@ -83,7 +83,7 @@
 									  emailid = data.HospitalDtls[0].EmailId1;
 								 		 mobileid = data.HospitalDtls[0].Mobile1 ;
 								
-							$("#firstname_palceholder").attr("placeholder", firstname);
+							$("#hospitalname").attr("placeholder", firstname);
 			// 			    $("#lastname_placeholder").attr("placeholder", lastname);
 						   $("#email").attr("placeholder", emailid );
 						   $("#phone").attr("placeholder", mobileid );
@@ -92,9 +92,90 @@
 			 });
 		localStorage.setItem("hos_name",  firstname);
 			}
+
+
+			loadProfilepic(hosIDGlobal); 
+
+			var btnUpload = $("#profilepic");
+				btnUpload.on("change", function (e) {
+
+					//alert(docIDGlobal);
+					let files = new FormData(),
+						url = 'http://RocketMedecin.com/rocketmed/api//UpFiles/' + hosIDGlobal + '?usertype=hos&doctype=1';
+                    files.append('image', document.getElementById('profilepic').files[0]);
+					var settings = {
+						"url": url,
+						"method": "PUT",
+						"timeout": 0,
+						"processData": false,
+						"mimeType": "multipart/form-data",
+						"contentType": false,
+                        "data": files,
+						"headers": {
+							"Authorization": authToken
+						}
+
+					};
+
+					$.ajax(settings).done(function (response) {
+						console.log("uploadbtn",response);
+                        loadProfilepic(hosIDGlobal); 
+
+					});
+
+				});
+			
+				function loadProfilepic(userId) {
+                var settings = {
+                    "url": "http://RocketMedecin.com/rocketmed/api//UpFiles?usertype=hos&userid="+userId,
+                    "method": "GET",
+					"timeout": 0,
+                    "headers": {
+                        "Authorization": authToken
+                    }
+                };
+                $.ajax(settings).done(function (response) {
+					
+					var data = $.parseJSON(response);
+				
+                    console.log(data);
+                    var last = data.HospFileList[data.HospFileList.length - 1]
+					console.log(last);
+					var PatientDocumentId = last.HospitalPhotosDtlsId;
+					console.log(PatientDocumentId);
+					var source = last.DocPath;
+					console.log(source);
+					updateProfilepic(PatientDocumentId);
+
+				}); 
+				}
+
+				function updateProfilepic(docid) {
+					console.log("updating image");
+
+                    var settings = {
+
+						"url": "http://RocketMedecin.com/rocketmed/api//UpFiles/" + docid + "?usertype=hos",
+
+                        "method": "GET",
+
+						"timeout": 0,
+                        "headers": {
+                            "Authorization": authToken
+                        }
+
+                    };
+
+					$.ajax(settings).done(function (response) {
+						console.log(response);
+						
+                        $("#profileimg").attr("src", "data: image / jpeg; base64," + response);
+                        $("#user-img").attr("src", "data: image / jpeg; base64," + response);
+                    }); 
+
 		}
 		
-
+			}
 
 
 		</script>
@@ -245,7 +326,7 @@
 						<li class="nav-item dropdown has-arrow logged-item">
 							<a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
 								<span class="user-img">
-									<img class="rounded-circle" src="assets/img/doctors/doctor-thumb-02.jpg" width="31" alt="Ashwani Maichand">
+									<img id="user-img" class="rounded-circle" src="data:," width="31" alt="Ashwani Maichand">
 								</span>
 							</a>
 							<div class="dropdown-menu dropdown-menu-right">
@@ -300,12 +381,12 @@
 								<div class="widget-profile pro-widget-content">
 									<div class="profile-info-widget">
 										<a href="#" class="booking-doc-img">
-											<img src="assets/img/hospital/hospital-thumb-02.jpg" alt="User Image">
+											<img id="profileimg" src="data:," alt="User Image">
 										</a>
 										<div class="upload-img">
 														<div class="change-photo-btn">
 															<span><i class="fa fa-upload"></i> Upload Photo</span>
-															<input type="file" class="upload">
+															<input type="file" class="upload" id="profilepic">
 														</div>
 														<small class="form-text text-muted">Allowed JPG, GIF or PNG. Max size of 2MB</small>
 													</div><br>
@@ -1105,7 +1186,7 @@
 		
 		
 			$.ajax({
-				url: "http://www.rocketmedecin.com/rocketmed/api/HospSetInfo/"+hosIDGlobal+"?page=1",
+				url: "http://RocketMedecin.com/rocketmed/api//HospSetInfo/"+hosIDGlobal+"?page=1",
 				method:"PUT",
 				async: false,
 				contentType: 'application/json; charset=utf-8',
@@ -1176,7 +1257,7 @@
 		}*/
 
 			$.ajax({
-				url: "http://www.rocketmedecin.com/rocketmed/api/HospAward/"+hosIDGlobal,
+				url: "http://RocketMedecin.com/rocketmed/api//HospAward/"+hosIDGlobal,
 				method:"POST",
 				async: false,
 				contentType: 'application/json; charset=utf-8',
@@ -1213,7 +1294,7 @@
 		function register()
 	   {
 	
-		var Hospno;
+		var DoctorNo;
 		var registername = document.getElementById("registeryear").value;
 		var registeryear  = document.getElementById("registeryearid").value;
 
@@ -1230,7 +1311,7 @@
 			let formatdata=JSON.stringify(registerdata );
 
 			$.ajax({
-				url: "http://www.rocketmedecin.com/rocketmed/api/HospRegDet/"+hosIDGlobal,
+				url: "http://RocketMedecin.com/rocketmed/api//HospRegDet/"+hosIDGlobal,
 				method:"POST",
 				async: false,
 				contentType: 'application/json; charset=utf-8',
@@ -1289,7 +1370,7 @@
                     
 
 						$.ajax({
-						url: "http://www.rocketmedecin.com/rocketmed/api/HospSetInfo/"+hosIDGlobal+"?page=3",
+						url: "http://RocketMedecin.com/rocketmed/api//HospSetInfo/"+hosIDGlobal+"?page=3",
 						method:"PUT",
 						async: false,
 						contentType: 'application/json; charset=utf-8',
@@ -1335,7 +1416,7 @@
                     
 
 						$.ajax({
-						url: "http://www.rocketmedecin.com/rocketmed/api/HospSetInfo/"+hosIDGlobal+"?page=2",
+						url: "http://RocketMedecin.com/rocketmed/api//HospSetInfo/"+hosIDGlobal+"?page=2",
 						method:"PUT",
 						async: false,
 						contentType: 'application/json; charset=utf-8',
@@ -1395,7 +1476,7 @@
 				}
 				console.log("["+specData+"]");
 				$.ajax({
-					url: "http://www.rocketmedecin.com/rocketmed/api/HospSer/" +hosIDGlobal,
+					url: "http://RocketMedecin.com/rocketmed/api//HospSer/" +hosIDGlobal,
 					method:"POST",
 					async: false,
 					contentType: 'application/json; charset=utf-8',
@@ -1446,7 +1527,7 @@ function specialization()
 		}
 		console.log("["+specData+"]");
 		$.ajax({
-			url: "http://www.rocketmedecin.com/rocketmed/api/HospSpec/" +hosIDGlobal,
+			url: "http://RocketMedecin.com/rocketmed/api//HospSpec/" +hosIDGlobal,
 			method:"POST",
 			async: false,
 			contentType: 'application/json; charset=utf-8',
