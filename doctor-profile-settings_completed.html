@@ -1,4 +1,4 @@
-﻿﻿<!DOCTYPE html> 
+<!DOCTYPE html> 
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
@@ -114,22 +114,22 @@
 
 	// 				function save() {
 	// 			    point = marker.getPosition();
-	// 				//console.log("Save this location" +point+"?" );
+	// 				//alert("Save this location" +point+"?" );
 						
   	// 				var txt;
  	// 				var r = confirm("Save Location");
   	// 				if (r == true) {
 	  				
 	//   				markervalue=(JSON.stringify(point));
-	// 				console.log(markervalue);  
+	// 				alert(markervalue);  
     // 				// txt = "You pressed OK!";
 	// 				localStorage.setItem('markervalue', markervalue);
 					
 
-	// 				console.log("Location Saved");
+	// 				alert("Location Saved");
   	// 				} else {
     // 				// txt = "You pressed Cancel!";
-	// 				console.log("Please Select New Location");
+	// 				alert("Please Select New Location");
   	// 				}
 	// 			//   document.getElementById("demo").innerHTML = txt;
 	// 			}
@@ -144,7 +144,7 @@
 
 
     // </script>  
-
+		
                
 		<script>
 			setTimeout(()=>{
@@ -157,7 +157,7 @@
 
 				authToken= " bearer " +localStorage.getItem("tokenid");
 				user_ID=localStorage.getItem("docid");
-				console.log(authToken);
+				//alert(authToken);
 				
 
              /*   Logic for Get  
@@ -178,7 +178,7 @@
 			} 
 			}
 			
-			console.log(data.userid);
+			alert(data.userid);
 			var user_ID = data.userid;
 			*/
 		
@@ -220,14 +220,14 @@
 			 "headers": { "Authorization":  authToken
 				 }
 			 };
-			 console.log(docIDGlobal);
+			 //alert(docIDGlobal);
 			$.ajax(setting1).done(function (resp1) {
 				//sleep(10);
 				//console.log(resp1);
 				//console.log("Doctor details;"+ resp1);
 				// convert resp1 from json to key value pair
 				var data = $.parseJSON(resp1);
-			  console.log(JSON.stringify(data));
+			  //alert(JSON.stringify(data));
 		        console.log(JSON.stringify(data));
 			
 			$('#append_list').append('<p>' + user_ID+ '</p>');
@@ -292,86 +292,93 @@
 //         });
 //     }
 // }
+            loadProfilepic(docIDGlobal); 
+
+			    var btnUpload = $("#profilepic");
+				btnUpload.on("change", function (e) {
+
+					let files = new FormData(),
+						url = 'http://www.rocketmedecin.com/rocketmed/api/UpFiles/' + docIDGlobal + '?usertype=doc&doctype=1';
+                    files.append('image', document.getElementById('profilepic').files[0]);
+					var settings = {
+						"url": url,
+						"method": "PUT",
+						"timeout": 0,
+						"processData": false,
+						"mimeType": "multipart/form-data",
+						"contentType": false,
+                        "data": files,
+						"headers": {
+							"Authorization": authToken
+						}
+
+					};
+
+					$.ajax(settings).done(function (response) {
+						console.log("uploadbtn",response);
+                        loadProfilepic(docIDGlobal); 
+
+					});
+
+				});
+			
+				function loadProfilepic(userId) {
+                var settings = {
+                    "url": "http://www.rocketmedecin.com/rocketmed/api/UpFiles?usertype=doc&userid="+userId,
+                    "method": "GET",
+					"timeout": 0,
+                    "headers": {
+                        "Authorization": authToken
+                    }
+                };
+                $.ajax(settings).done(function (response) {
+					
+					var data = $.parseJSON(response);
+				
+                    console.log(data);
+					var prof_data=[];
+					length = data.DocFileList.length
+					for(i=0;i<length;i++) {
+						if(data.DocFileList[i]["DocType"] == 1){
+							prof_data.push(data.DocFileList[i]);
+						}
+
+					}
+                    var last = prof_data[prof_data.length - 1]
+					console.log(last);
+					var PatientDocumentId = last.DoctorDocumentId;
+					console.log(PatientDocumentId);
+					var source = last.DocPath;
+					console.log(source);
+					updateProfilepic(PatientDocumentId);
+
+				}); 
+				}
+
+				function updateProfilepic(docid) {
+					console.log("updating image");
+                    var settings = {
+						"url": "http://www.rocketmedecin.com/rocketmed/api/UpFiles/" + docid + "?usertype=doc",
+                        "method": "GET",
+						"timeout": 0,
+                        "headers": {
+                            "Authorization": authToken
+                        }
+                    };
+					$.ajax(settings).done(function (response) {
+						console.log(response);
+                        $("#profileimg").attr("src", "data: image / jpeg; base64," + response);
+                        $("#user-img").attr("src", "data: image / jpeg; base64," + response);
+                    }); 
+                }
+				load_certificate(docIDGlobal);
+
+
 			}
 			setTimeout(()=>{
 				console.log("ALL", document.querySelector('.multisteps-form__form'));
 			}, 50);
-		// 	Dropzone.options.myDropzone = {
-        //     url: "#",
-        //     autoProcessQueue: false,
-        //     uploadMultiple: true,
-        //     parallelUploads: 100,
-        //     maxFiles: 100,
-        //     acceptedFiles: "image/*",
-
-        //     init: function () {
-
-        //         var submitButton = document.querySelector("#submit-certificates");
-		// 		var wrapperThis = this;
-		// 		console.log(this.wrapperThis);
-        //         submitButton.addEventListener("click", function () {
-		// 			console.log(wrapperThis);
-        //             wrapperThis.processQueue();
-        //         });
-
-        //         this.on("addedfile", function (file) {
-
-        //             // Create the remove button
-        //             var removeButton = Dropzone.createElement("<button class='btn btn-lg dark'>Remove File</button>");
-
-        //             // Listen to the click event
-        //             removeButton.addEventListener("click", function (e) {
-        //                 // Make sure the button click doesn't submit the form:
-        //                 e.preventDefault();
-        //                 e.stopPropagation();
-
-        //                 // Remove the file preview.
-        //                 wrapperThis.removeFile(file);
-        //                 // If you want to the delete the file on the server as well,
-        //                 // you can do the AJAX request here.
-        //             });
-
-        //             // Add the button to the file preview element.
-        //             file.previewElement.appendChild(removeButton);
-        //         });
-
-        //         this.on('sendingmultiple', function (data, xhr, formData) {
-        //             formData.append("Username", $("#Username").val());
-        //         });
-        //     }
-		// };
-		/* In Testing Mode
-            $(document).ready(function () {
-			Dropzone.options.dropzoneFrom = {
-				autoProcessQueue: false,
-				acceptedFiles:".png,.jpg,.gif,.bmp,.jpeg",
-				init: function() {
-					var submit = document.querySelector("submit-certificates");
-					myDropzone = this;
-					submit.addEventListener("click", function(){
-						myDropzone.processQueue();
-					});
-					this.on('thumbnail', function(file) {
-                     if (file.accepted !== false) {
-                     if (file.width < 1024 || file.height < 768) {
-                     file.rejectDimensions();
-                      }
-                  else {
-                    file.acceptDimensions();
-                   }
-               }
-              });
-
-					this.on("complete", function() {
-						if(this.getQueuedFiles().length == 0 && this.getUploadingFiles().length == 0)
-						{
-							var _this = this;
-							_this.removeAllFiles();
-						}
-					})
-				}
-			}
-});*/
+		
 			</script>	
 
 	
@@ -506,7 +513,7 @@
 						<li class="nav-item dropdown has-arrow logged-item">
 							<a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
 								<span class="user-img">
-									<img class="rounded-circle" src="assets/img/doctors/doctor-thumb-02.jpg" width="31" alt="Darren Elder">
+									<img class="rounded-circle" src="assets/img/doctors/doctor-thumb-02.jpg" id="user-img" width="31" alt="Darren Elder">
 								</span>
 							</a>
 							<div class="dropdown-menu dropdown-menu-right">
@@ -560,12 +567,12 @@
 								<div class="widget-profile pro-widget-content">
 									<div class="profile-info-widget">
 										<a href="#" class="booking-doc-img">
-											<img src="assets/img/doctors/doctor-thumb-02.jpg" alt="User Image">
+											<img src="data:," alt="User Image" id="profileimg">
 										</a>
 										<div class="upload-img">
 														<div class="change-photo-btn">
 															<span><i class="fa fa-upload"></i> Upload Photo</span>
-															<input type="file" class="upload">
+															<input type="file" class="upload" id="profilepic">
 														</div>
 														<small class="form-text text-muted">Allowed JPG or PNG. Max size of 1.5MB</small>
 													</div><br>
@@ -803,10 +810,11 @@
 											<!-- <form action="#" class="dropzone"></form> -->
 											<div class="form-group">
 												<label>Upload documents</label>
-												<!-- <form action="#" class="dropzone"></form> -->
+												<from  class="dropzone" style="display:inherit;" id="dropzone-form2"></from>
+
 											</div>
 
-											<div class="upload-wrap">
+											<div class="upload-wrap" id="doc_img">
 												<div class="upload-images">
 													<img src="assets/img/features/feature-01.jpg" alt="Upload Image">
 													<a href="javascript:void(0);" class="btn btn-icon btn-danger btn-sm"><i class="far fa-trash-alt"></i></a>
@@ -1130,11 +1138,11 @@
 									</div>
 					
 										<div class="form-group" style="padding-left:15px; padding-right:15px">
-												<label>Certificate images</label>
-												<from  class="dropzone" id="dropzone-from"></from>
+												<label>Certificate images</label><br>
+												<from  class="dropzone" style="display:inherit;" id="dropzone-form"></from>
 											</div>
 
-											<div class="upload-wrap" style="padding-left:15px;">
+											<div class="upload-wrap" style="padding-left:15px;" id="certificate_img">
 												<div class="upload-images">
 													<img src="assets/img/features/feature-01.jpg" alt="Upload Image">
 													<a href="javascript:void(0);" class="btn btn-icon btn-danger btn-sm"><i class="far fa-trash-alt"></i></a>
@@ -1567,10 +1575,6 @@
 				localStorage.setItem("lat",lat);
 				localStorage.setItem("long",long);
 
-				$('#edit_time_slot').modal('toggle');
-
-				alert("Location Saved Successfully");				
-			
 			
 
 			}
@@ -1617,107 +1621,59 @@
 		
 		
 		<script type="text/javascript">
-		
-		/* Convert this to a function onclick fucntion**/
-		
-		/*var user_ID;
-		
-		if (localStorage.getItem("docid"))
-		{ 
-		user_ID=localStorage.getItem("docid");
-		}
-		if (localStorage.getItem("hosid"))
-		{ 
-		user_ID=localStorage.getItem("hosid");
-		}
-		if (localStorage.getItem("patid"))
-		{ 
-		user_ID=localStorage.getItem("patid");
-		}
-		
-		console.log(user_ID);
-		
-		var loginid = user_ID.slice(3,user_ID.length);
-		    var Data = []
-			
-		    Dropzone.options.dropzoneFrom = {
-				autoProcessQueue: false,
+		var Data = []
+			doc_id =localStorage.getItem("docid");
+			docIDGlobal =doc_id.slice(3,doc_id.length);
+			authToken= " bearer " +localStorage.getItem("tokenid");
+		Dropzone.options.dropzoneForm = {
+				autoProcessQueue: true,
+				autoDiscover:false,
 				acceptedFiles:".png,.jpg,.gif,.bmp,.jpeg",
-				url: 'upload',
+				url: 'http://www.rocketmedecin.com/rocketmed/api/UpFiles/'+docIDGlobal+"?usertype=doc&doctype=2",
+				method: 'PUT',
+
+				headers:{ "Authorization": authToken},
 				init: function() {
-					myDropzone = this;
-                    $.ajax({
-                        url: 'http://www.rocketmedecin.com/api/UpFiles/' +loginid+ '?usertype=doc&doctype=2',
-                        type: 'put',
-                        dataType: 'json',
-                        "headers": {
-                            "Authorization": authToken,
-							"Access-Control-Allow-Origin":"*",
-							"Access-Control-Request-Headers": "x-requested-with"
-                        },
-                        success: function (response) {
-
-                            $.each(response, function (key, value) {
-                                var mockFile = { name: value.name, size: value.size };
-
-                                myDropzone.emit("addedfile", mockFile);
-                                myDropzone.emit("thumbnail", mockFile, value.path);
-                                myDropzone.emit("complete", mockFile);
-
-                            });
-
-                        }
-                    });
-					//submit.addEventListener("click", function(){
-						//myDropzone.processQueue();
-					//});
-					this.on('addedfile', function(file) {
-                     if (file.accepted !== false) {
-						 console.log(file);
-						 console.log(file["dataURL"]);
-						 console.log(this.getAcceptedFiles());
-						 console.log(this.getQueuedFiles());
-						 console.log(this.getUploadingFiles());
-						 //myDropzone.processQueue();
-                //      if (file.width < 1024 || file.height < 768) {
-                //       console.log(file);
-                //       }
-                //   else {
-				// 	 console.log(file);
-                //    }
-               }
-			  });
-			  this.on('thumbnail', function(file) {
-                     if (file.dataURL !== false) {
-						 console.log(file);
-						 console.log('file dataURL', file.dataURL);
-						 console.log('file path', file.fullPath)
-						 Data.push({name: file.name, imagebase64: file.dataURL})
-						 console.log("Data Array", Data);
-               }
-			  });
-			this.on("sending", function(file, xhr, data) {
-				//console.log('file comming', file);
-				//console.log('fileFullpath', file.fullPath);
-				var image = new Image();
-                image.src = file.dataURL;
-                document.body.appendChild(image);
-              if(file.fullPath){
-                 data.append("fullPath", file.fullPath);
-				}
-				data.append("data", Data);
-				console.log('Data', data)
-              });
-
-					this.on("complete", function() {
-						if(this.getQueuedFiles().length == 0 && this.getUploadingFiles().length == 0)
-						{
-							var _this = this;
-							_this.removeAllFiles();
-						}
+					var myDropzone= this;
+					var submit = document.getElementById("submit-certificates");
+					submit.addEventListener("click", function(){
+						myDropzone.processQueue();
+						
 					})
+					myDropzone.on("complete", function(file) {
+ 						
+						   myDropzone.removeFile(file);
+						  load_certificate(docIDGlobal)
+						});
+			
 				}
-			}*/
+				}
+
+
+
+				Dropzone.options.dropzoneForm2 = {
+				autoProcessQueue: true,
+				autoDiscover:false,
+				acceptedFiles:".png,.jpg,.gif,.bmp,.jpeg",
+				url: 'http://www.rocketmedecin.com/rocketmed/api/UpFiles/'+docIDGlobal+"?usertype=doc&doctype=3",
+				method: 'PUT',
+
+				headers:{ "Authorization": authToken},
+				init: function() {
+					var myDropzone= this;
+					var submit = document.getElementById("submit-certificates");
+					submit.addEventListener("click", function(){
+						myDropzone.processQueue();
+						
+					})
+					myDropzone.on("complete", function(file) {
+ 						
+						   myDropzone.removeFile(file);
+						  load_documents(docIDGlobal)
+						});
+			
+				}
+				}
 		</script>
 		<script>
 			
@@ -1732,7 +1688,7 @@
 			//Save User Info:
 			function saveUserInfo()
 			{
-			//console.log("Running");
+			//alert("Running");
 			var gend = document.getElementById("gendertype");
 			var strGender = gend.options[gend.selectedIndex].value;
 			var DateOB= $('#dob').val();
@@ -1744,31 +1700,12 @@
     					}
   				var year = splitDate[2];
     			var month = splitDate[1];
-				var day = splitDate[0]; 
-
-				/***Age  Verification ***/
-				var age = 16;
-				var mydate = new Date();
-				mydate.setFullYear(year, month-1, day);
-
-
-				var currdate = new Date();
-				currdate.setFullYear(currdate.getFullYear() - age);
-				if ((currdate - mydate) < 0){
-					alert("Sorry, only persons over the age of " + age + " can register");
-				     return ;
-					}
-				
-					/***Age  Verification ***/
-				
-
+    			var day = splitDate[0]; 
 
     			return month + '/' + day + '/' + year;
 				}
 				var newDate = changeDateFormat(DateOB);
 
-			
-                
 				var userInfoData = {
 						Firstname: firstname,
 						Lastname: lastname,
@@ -1793,13 +1730,12 @@
 				error: function(xhr, status, error) {
 					  var err = eval("(" + xhr.responseText + ")");
 					  console.log(err.Message);
-  					console.log("Error: Pease Try Again with Valid User Info"+ authToken );
+  					alert("Error: Pease Try Again with Valid User Info"+ authToken );
 				
 				},
 				success: function(response){
 						console.log("UserInfo Response:"+response);
-
-						console.log('Doctors Basic Info Updated Successfully !!');
+						alert('Doctors Basic Info Updated Successfully !!');
 					}
 			});
 			}
@@ -1836,13 +1772,13 @@
   					var err = eval("(" + xhr.responseText + ")");
 					console.log("Ajax call atleast happened");
 					console.log(err.Message);
-  					console.log("Error: Pease Try Again with Valid Hospital/Clinic Checkbox");
+  					alert("Error: Pease Try Again with Valid Hospital/Clinic Checkbox");
 				   
 				},
 				success: function(response){
 						console.log(response);
 						console.log("Your ID : "+response);
-						console.log('Doctors Hspital/Clinic Info Updated Successfully !!');
+						alert('Doctors Hspital/Clinic Info Updated Successfully !!');
 						}
 			});
 			saveClinicInfo();
@@ -1970,7 +1906,7 @@ $.ajax(settings).done(function (response) {
 					   };
 
 					   
-			// console.log(JSON.stringify(data1));
+			// alert(JSON.stringify(data1));
 				console.log("Basic Info Data :"+JSON.stringify(data1));
 			$.ajax({
 				url: "http://www.rocketmedecin.com/rocketmed/api/Doctor/"+docIDGlobal+"?page=2",
@@ -1984,9 +1920,9 @@ $.ajax(settings).done(function (response) {
   					var err = eval("(" + xhr.responseText + ")");
 					  console.log('ajax call atleasy happened');
 					  console.log(err.Message);
-  				//	console.log(err.Message);
-				//	console.log(status);
-					console.log("Error: Pease Try Again with Valid Contact Details");
+  				//	alert(err.Message);
+				//	alert(status);
+					alert("Error: Pease Try Again with Valid Contact Details");
 
 					// if (response == null)
 					// 	{
@@ -1998,18 +1934,18 @@ $.ajax(settings).done(function (response) {
 					// 	}
 					// 	else{
 					// 		console.log("Your ID : "+response);
-					// 	console.log('Record Updated Successfully Inside Error');
+					// 	alert('Record Updated Successfully Inside Error');
 					// 	//baseURL=document.location.href;
-					// 	//console.log(baseURL);
+					// 	//alert(baseURL);
 					// 	//window.open('doctor-dashboard.html', "_self");
 					// 	}
 				},
 				success: function(response){
 						console.log(response);
 						console.log("Your ID : "+response);
-						console.log('Doctors Contact Info Updated Successfully !!');
+						alert('Doctors Contact Info Updated Successfully !!');
 						//baseURL=document.location.href;
-						//console.log(baseURL);
+						//alert(baseURL);
 						//window.open('doctor-dashboard.html', "_self");
 						
 						//document.location.href = "./login.html" , target="_blank";
@@ -2114,14 +2050,14 @@ $.ajax(settings).done(function (response) {
   					var err = eval("(" + xhr.responseText + ")");
   					console.log("Error Message"+err.Message);	
 					console.log('ajax call happening 1')	
-				 console.log("Error saving Clinic Info. Pease Try Again");
+				 alert("Error saving Clinic Info. Pease Try Again");
 					
 				},
 				success: function(response1){ 
 						console.log(response1);
 						
 						console.log("Clinic Info Updated : "+response1);
-						console.log('Clinic/Hospital Info Updated Successfully !!');
+						alert('Clinic/Hospital Info Updated Successfully !!');
 						}
 			});
 
@@ -2138,14 +2074,14 @@ $.ajax(settings).done(function (response) {
   			// 		var err = eval("(" + xhr.responseText + ")");
   			// 		console.log("Error Message"+err.Message);	
 			// 		console.log('ajax call happening 1')	
-			// 	 console.log("Error saving Clinic Info. Pease Try Again");
+			// 	 alert("Error saving Clinic Info. Pease Try Again");
 					
 			// 	},
 			// 	success: function(response1){ 
 			// 			console.log(response1);
 						
 			// 			console.log("Clinic Info Updated : "+response1.ClinicId);
-			// 			console.log('Clinic/Hospital Info Updated Successfully !!');
+			// 			alert('Clinic/Hospital Info Updated Successfully !!');
 			// 			}
 			// });
 			
@@ -2187,13 +2123,13 @@ $.ajax(settings).done(function (response) {
 					error: function(xhr, status, error) {
 						  var err = eval("(" + xhr.responseText + ")");
 						  console.log("Error Message"+err.Message);		
-						console.log("Error saving Clinic Specialization Info. Pease Try Again");
+						alert("Error saving Clinic Specialization Info. Pease Try Again");
 						
 					},
 					success: function(response1){
 							console.log(response1);
 							console.log("Clinic Specializations Info Updated !! ");
-							console.log('Clinic Specialization Info Updated Successfully!!');
+							alert('Clinic Specialization Info Updated Successfully!!');
 							}
 				});
 		}
@@ -2236,13 +2172,13 @@ $.ajax(settings).done(function (response) {
 					error: function(xhr, status, error) {
 						  var err = eval("(" + xhr.responseText + ")");
 						  console.log("Error Message"+err.Message);		
-						console.log("Error saving Clinic Services Info. Pease Try Again");
+						alert("Error saving Clinic Services Info. Pease Try Again");
 						
 					},
 					success: function(response1){
 							console.log(response1);
 							console.log("Clinic Services Info Updated !!");
-							console.log('Clinic Services Info Updated Successfully !!');
+							alert('Clinic Services Info Updated Successfully !!');
 							}
 				});
 		}	
@@ -2265,7 +2201,7 @@ var hospitalCounter=1;
 
 
 function saveHospexperience(){
-	console.log("Save Hospital Experience");
+	alert("Save Hospital Experience");
 	/*	Post:
 		{"DoctorNo":"4","Degree":"Degree 1","CollegeName":"College 1","Completedyear":"2012","orderby":"1"},
 		{"DoctorNo":"4","Degree":"Degree 2","CollegeName":"College 2","Completedyear":"2008","orderby":"2"},
@@ -2276,7 +2212,7 @@ function saveHospexperience(){
 		DoctorNo:"4",Degree:"Degree 2",CollegeName:"College 2",Completedyear:"2008",orderby:"2",
 			DoctorNo:"4",Degree:"Degree 3",CollegeName:"College 3","Completedyear":"2006","orderby":"3"
 		*/
-		//console.log(educationCounter);
+		//alert(educationCounter);
 		var hospital = document.getElementById("hospital_name").value;
 		var hospitaldesignation = document.getElementById("hospital_designation").value;
 		var Datestart= $('#start_date').val();
@@ -2314,7 +2250,7 @@ function saveHospexperience(){
 				var Dateend = changeDateFormat2( Dateend );
 
 	
-			//console.log("docID"+docIDGlobal);
+			//alert("docID"+docIDGlobal);
 			*/
 			
 		let data11={ DoctorNo:docIDGlobal,Hospname:hospital,WorkFrom:Datestart,WorkTo:Dateend,Designation:hospitaldesignation,Presentworking:"1"};
@@ -2333,12 +2269,12 @@ function saveHospexperience(){
 				d13  = {DoctorNo:docIDGlobal,Hospname:hospital,WorkFrom:Datestart,WorkTo:Dateend,Designation:hospitaldesignation,Presentworking:"1" };
 				
 				d12 += ","+ JSON.stringify(d13) ;
-				console.log(d12.toString());
+				alert(d12.toString());
 			}
 		}
 		console.log("data3: "+d12)
-		//console.log(data3);
-		//console.log(JSON.stringify(data3));
+		//alert(data3);
+		//alert(JSON.stringify(data3));
 		
 			$.ajax({
 				    
@@ -2352,13 +2288,13 @@ function saveHospexperience(){
 					error: function(xhr, status, error) {
 						  var err = eval("(" + xhr.responseText + ")");
 						  console.log("Error Message"+err.Message);		
-						console.log("Error saving Clinic Info. Pease Try Again");
+						alert("Error saving Clinic Info. Pease Try Again");
 						
 					},
 					success: function(response1){
 							console.log(response1);
 							console.log("Save Hospital Experience ");
-							console.log('Save Hospital Experience Successfull !!');
+							alert('Save Hospital Experience Successfull !!');
 							}
 				});
 
@@ -2368,7 +2304,7 @@ function saveHospexperience(){
 
 
 	function saveEducationInfo(){
-	console.log("Experience info");
+	alert("Experience info");
 	/*	Post:
 		{"DoctorNo":"4","Degree":"Degree 1","CollegeName":"College 1","Completedyear":"2012","orderby":"1"},
 		{"DoctorNo":"4","Degree":"Degree 2","CollegeName":"College 2","Completedyear":"2008","orderby":"2"},
@@ -2379,12 +2315,12 @@ function saveHospexperience(){
 		DoctorNo:"4",Degree:"Degree 2",CollegeName:"College 2",Completedyear:"2008",orderby:"2",
 			DoctorNo:"4",Degree:"Degree 3",CollegeName:"College 3","Completedyear":"2006","orderby":"3"
 		*/
-		//console.log(educationCounter);
+		//alert(educationCounter);
 		var degreeID = document.getElementById("degreeID").value;
 		var collegeID = document.getElementById("collegeID").value;
 		var yocID = document.getElementById("yocID").value;
 	
-			//console.log("docID"+docIDGlobal);
+			//alert("docID"+docIDGlobal);
 		let data3={
 			DoctorNo:docIDGlobal,Degree:degreeID,CollegeName:collegeID,Completedyear:yocID,orderby:"1"
 		};
@@ -2401,12 +2337,12 @@ function saveHospexperience(){
 				d2  = {DoctorNo:docIDGlobal,Degree:degreeID,CollegeName:collegeID,Completedyear:yocID,orderby:educationCounter};
 				
 				d1 += ","+ JSON.stringify(d2) ;
-				console.log(d1.toString());
+				alert(d1.toString());
 			}
 		}
 		console.log("data3: "+d1)
-		//console.log(data3);
-		//console.log(JSON.stringify(data3));
+		//alert(data3);
+		//alert(JSON.stringify(data3));
 		
 			$.ajax({
 					url: "http://www.rocketmedecin.com/rocketmed/api/DocEdu/"+docIDGlobal,
@@ -2419,13 +2355,13 @@ function saveHospexperience(){
 					error: function(xhr, status, error) {
 						  var err = eval("(" + xhr.responseText + ")");
 						  console.log("Error Message"+err.Message);		
-						console.log("Error saving Clinic Info. Pease Try Again");
+						alert("Error saving Clinic Info. Pease Try Again");
 						
 					},
 					success: function(response1){
 							console.log(response1);
 							console.log("Educcation Info Updated : ");
-							console.log('Education Info Updated Successfully !!');
+							alert('Education Info Updated Successfully !!');
 							}
 				});
 
@@ -2433,7 +2369,6 @@ function saveHospexperience(){
 		//saveExpDetails();
 		 saveHospexperience();
 		saveAwards();	
-		autoloadcertifcateimage();
 	}	
 
 
@@ -2441,13 +2376,13 @@ function saveHospexperience(){
 	function saveExpCertificates()
 	{
 
-		console.log("Experience Certificate");
+		alert("Experience Certificate");
 
 		var degreeID = document.getElementById("degreeID").value;
 		var collegeID = document.getElementById("collegeID").value;
 		var yocID = document.getElementById("yocID").value;
 	
-			//console.log("docID"+docIDGlobal);
+			//alert("docID"+docIDGlobal);
 		let data3={
 			DoctorNo:docIDGlobal,Degree:degreeID,CollegeName:collegeID,Completedyear:yocID,orderby:"1"
 		};
@@ -2464,12 +2399,12 @@ function saveHospexperience(){
 				d2  = {DoctorNo:docIDGlobal,Degree:degreeID,CollegeName:collegeID,Completedyear:yocID,orderby:educationCounter};
 				
 				d1 += ","+ JSON.stringify(d2) ;
-				console.log(d1.toString());
+				alert(d1.toString());
 			}
 		}
 		console.log("data3: "+d1)
-		//console.log(data3);
-		//console.log(JSON.stringify(data3));
+		//alert(data3);
+		//alert(JSON.stringify(data3));
 		
 			$.ajax({
 					url: "http://www.rocketmedecin.com/rocketmed/api/DocEdu/"+docIDGlobal,
@@ -2482,57 +2417,127 @@ function saveHospexperience(){
 					error: function(xhr, status, error) {
 						  var err = eval("(" + xhr.responseText + ")");
 						  console.log("Error Message"+err.Message);		
-						console.log("Error saving Clinic Info. Pease Try Again");
+						alert("Error saving Clinic Info. Pease Try Again");
 						
 					},
 					success: function(response1){
 							console.log(response1);
 							console.log("Education Info Updated : ");
-							console.log('Education Info Updated Successfully !!');
+							alert('Education Info Updated Successfully !!');
 							}
 				});
 		
 	}
    
-	 function autoloadcertifcateimage() {
-		 console.log("autoloadcertifcateimage");
-                   Dropzone.autoDiscover = false;
-                   $(".dropzone").dropzone({
-                       init: function () {
-                           myDropzone = this;
-                           $.ajax({
-                               url: 'http://www.rocketmedecin.com/rokcetmed/api/UpFiles/' +docIDGlobal+'?usertype=doc&doctype=2',
-                               type: 'put',
-							   dataType: 'json',
-                               "headers": {
-                                   "Authorization": authToken
-                               },
-                               success: function (response) {
+	function load_certificate(doc_id) {
+			console.log("load_certificate Image",doc_id);
+			var settings = { 
+			"url": "http://www.rocketmedecin.com/rocketmed/api/UpFiles?usertype=doc&userid="+doc_id, 
+            "method": "GET", 
+			"timeout": 0, 
+			headers: { "Authorization": authToken },
+			};	
+			$.ajax(settings).done(function (response) { 
+			console.log("load_certificate Image")
+			//console.log(response); 
+			var data = $.parseJSON(response);
+			documents = data["DocFileList"]
+			length = documents.length
+			var form = $("#certificate_img");
+			var html ="";
+			for (i = 0; i < length; i++) {
+				var value = documents[i];
+				//console.log(value);
+				if(value["DocType"] == 2) {
+					//console.log("value",value)
+					img_url = getImg_url(value["DoctorDocumentId"],"doc");
+					//console.log("img_url",img_url);
+					delet_method="deleteImg(" + value["DoctorDocumentId"] + ",'doc');"
+					html += "<div class='upload-images'> <img style='width:80px;border-style:solid;' src= " + img_url + " alt='Upload Image'><a onclick="+delet_method +" class='btn btn-icon btn-danger btn-sm'><i class='far fa-trash-alt'></i></a></div>"
+				}
 
-                                   $.each(response, function (key, value) {
-                                       var mockFile = { name: value.name, size: value.size };
+			}
+			form.html(html);
+          }); 
 
-                                       myDropzone.emit("addedfile", mockFile);
-                                       myDropzone.emit("thumbnail", mockFile, value.path);
-                                       myDropzone.emit("complete", mockFile);
+}
 
-                                   });
 
-                               }
-                           });
-                       }
-                   });
-               }
+function load_documents(doc_id){
+	console.log("load_certificate Image",doc_id);
+			var settings = { 
+			"url": "http://www.rocketmedecin.com/rocketmed/api/UpFiles?usertype=doc&userid="+doc_id, 
+            "method": "GET", 
+			"timeout": 0, 
+			headers: { "Authorization": authToken },
+			};	
+			$.ajax(settings).done(function (response) { 
+			console.log("load_certificate Image")
+			//console.log(response); 
+			var data = $.parseJSON(response);
+			documents = data["DocFileList"]
+			length = documents.length
+			var form = $("#doc_img");
+			var html ="";
+			for (i = 0; i < length; i++) {
+				var value = documents[i];
+				//console.log(value);
+				if(value["DocType"] == 3) {
+					//console.log("value",value)
+					img_url = getImg_url(value["DoctorDocumentId"],"doc");
+					//console.log("img_url",img_url);
+					delet_method="deleteImg(" + value["DoctorDocumentId"] + ",'doc');"
+					html += "<div class='upload-images'> <img style='width:80px;border-style:solid;' src= " + img_url + " alt='Upload Image'><a onclick="+delet_method +" class='btn btn-icon btn-danger btn-sm'><i class='far fa-trash-alt'></i></a></div>"
+				}
+
+			}
+			form.html(html);
+          }); 
+}
+
+       function getImg_url(doc_id,type){
+	    console.log(doc_id,type);	   
+		var img_url;
+		var settings = { 
+			"url": "http://www.rocketmedecin.com/rocketmed/api/UpFiles/"+doc_id+"?usertype=" +type, 
+			"method": "GET", 
+			"timeout": 0,
+			"async" :false,
+			"headers": { "Authorization": authToken }, 
+		}; 
+		$.ajax(settings).done(function (response) { 
+	    img_url = response;		
+		}); 
+		return("data:image/png;base64,"+img_url);
+
+	   }
+
+	   function deleteImg(doc_id,type){
+		   //console.log("dele img");
+		   var settings = { 
+			"url": "http://www.rocketmedecin.com/rocketmed/api/UpFiles/"+doc_id+ "?usertype="+type, 
+			"method": "DELETE", 
+			"timeout": 0, 
+			"headers": { "Authorization": authToken }, 
+			}; 
+			$.ajax(settings).done(function (response) { 
+				//console.log(response); 
+				alert("Document deleted successfully")
+				load_certificate(docIDGlobal);
+				load_documents(docIDGlobal);
+
+			}); 
+	   }
 
 		function saveExpDetails()
 		{
 			
-		console.log("Save Experience");
+		alert("Save Experience");
         var awards = document.getElementById("awards_name").value;
 		var year  = document.getElementById("awards_year").value;
 
 
-		//console.log("docID"+docIDGlobal);
+		//alert("docID"+docIDGlobal);
 		let data4={
 			DoctorNo:docIDGlobal,AwardName:awards,year:year,orderby:"1"
 		};
@@ -2551,12 +2556,12 @@ function saveHospexperience(){
 				d5  = {DoctorNo:docIDGlobal,AwardName:awards,year:year,orderby:awardCounter};
 				
 				d4 += ","+ JSON.stringify(d5) ;
-				console.log(d4.toString());
+				alert(d4.toString());
 			}
 		}
 		console.log("data4: "+d4)
-		//console.log(data3);
-		//console.log(JSON.stringify(data3));
+		//alert(data3);
+		//alert(JSON.stringify(data3));
 		
 			$.ajax({
 					url: "http://www.rocketmedecin.com/rocketmed/api/DocAward/"+docIDGlobal,
@@ -2569,13 +2574,13 @@ function saveHospexperience(){
 					error: function(xhr, status, error) {
 						  var err = eval("(" + xhr.responseText + ")");
 						  console.log("Error Message"+err.Message);		
-						console.log("Error saving Clinic Info. Pease Try Again");
+						alert("Error saving Clinic Info. Pease Try Again");
 						
 					},
 					success: function(response1){
 							console.log(response1);
 							console.log("award Info Updated : ");
-							console.log('award Info Updated Successfully !!');
+							alert('award Info Updated Successfully !!');
 							}
 				});
 	
@@ -2590,12 +2595,12 @@ function saveHospexperience(){
 		function saveAwards()
 		{
 
-		console.log("awards");
+		alert("awards");
         var awards = document.getElementById("awards_name").value;
 		var year  = document.getElementById("awards_year").value;
 
 
-		//console.log("docID"+docIDGlobal);
+		//alert("docID"+docIDGlobal);
 		let data4={
 			DoctorNo:docIDGlobal,AwardName:awards,year:year,orderby:"1"
 		};
@@ -2614,12 +2619,12 @@ function saveHospexperience(){
 				d5  = {DoctorNo:docIDGlobal,AwardName:awards,year:year,orderby:awardCounter};
 				
 				d4 += ","+ JSON.stringify(d5) ;
-				console.log(d4.toString());
+				alert(d4.toString());
 			}
 		}
 		console.log("data4: "+d4)
-		//console.log(data3);
-		//console.log(JSON.stringify(data3));
+		//alert(data3);
+		//alert(JSON.stringify(data3));
 		
 			$.ajax({
 					url: "http://www.rocketmedecin.com/rocketmed/api/DocAward/"+docIDGlobal,
@@ -2632,13 +2637,13 @@ function saveHospexperience(){
 					error: function(xhr, status, error) {
 						  var err = eval("(" + xhr.responseText + ")");
 						  console.log("Error Message"+err.Message);		
-						console.log("Error saving Clinic Info. Pease Try Again");
+						alert("Error saving Clinic Info. Pease Try Again");
 						
 					},
 					success: function(response1){
 							console.log(response1);
 							console.log("award Info Updated : ");
-							console.log('award Info Updated Successfully !!');
+							alert('award Info Updated Successfully !!');
 							}
 				});
 	
@@ -2659,12 +2664,12 @@ function saveHospexperience(){
 function saveMembership()
 	{
 		
-		console.log("Membership");
+		alert("Membership");
         var membership = document.getElementById("membership_value").value;
 
 
 
-		//console.log("docID"+docIDGlobal);
+		//alert("docID"+docIDGlobal);
 		let data5={
 			DoctorNo:docIDGlobal,MemberShipDtlsName:membership,orderby:"1"
 	     };
@@ -2683,12 +2688,12 @@ function saveMembership()
 				d7  = {DoctorNo:docIDGlobal,MemberShipDtlsName:membership,orderby:membershipcounter};
 				
 				d6 += ","+ JSON.stringify(d7) ;
-				console.log(d6.toString());
+				alert(d6.toString());
 			}
 		}
 		console.log("data5: "+d6)
-		//console.log(data3);
-		//console.log(JSON.stringify(data3));
+		//alert(data3);
+		//alert(JSON.stringify(data3));
 		
 			$.ajax({
 					url: "http://www.rocketmedecin.com/rocketmed/api/DocMem/"+docIDGlobal,
@@ -2701,13 +2706,13 @@ function saveMembership()
 					error: function(xhr, status, error) {
 						  var err = eval("(" + xhr.responseText + ")");
 						  console.log("Error Message"+err.Message);		
-						console.log("Error saving Membership. Pease Try Again");
+						alert("Error saving Membership. Pease Try Again");
 						
 					},
 					success: function(response1){
 							console.log(response1);
 							console.log("Membership Info Updated : ");
-							console.log('Membership Info Updated Successfully !!');
+							alert('Membership Info Updated Successfully !!');
 							}
 				});
 	
@@ -2721,14 +2726,14 @@ function saveMembership()
 
 function savePracticeReg()
 	{
-		console.log("Save Practice registeration");
+		alert("Save Practice registeration");
 		var registeration_name = document.getElementById("registeration_no").value;
 		var registeration_year1 = document.getElementById("registeration_year").value;
 
 		
 		
 
-		//console.log("docID"+docIDGlobal);
+		//alert("docID"+docIDGlobal);
 		let data8={
 			DoctorNo:docIDGlobal,RegistrationName:registeration_name,Year:registeration_year1,orderby:"1"
 	     };
@@ -2749,12 +2754,12 @@ function savePracticeReg()
 				d10  = {DoctorNo:docIDGlobal,RegistrationName:registeration_name,Year:registeration_year1,orderby:registerCounter};
 				
 				d9 += ","+ JSON.stringify(d10) ;
-				console.log(d9.toString());
+				alert(d9.toString());
 			}
 		}
 		console.log("data8: "+d9)
-		//console.log(data3);
-		//console.log(JSON.stringify(data3));
+		//alert(data3);
+		//alert(JSON.stringify(data3));
 		
 			$.ajax({
 					url: "http://www.rocketmedecin.com/rocketmed/api/DocRegDet/"+docIDGlobal,
@@ -2767,13 +2772,13 @@ function savePracticeReg()
 					error: function(xhr, status, error) {
 						  var err = eval("(" + xhr.responseText + ")");
 						  console.log("Error Message"+err.Message);		
-						console.log("Error saving Membership. Pease Try Again");
+						alert("Error saving Membership. Pease Try Again");
 						
 					},
 					success: function(response1){
 							console.log(response1);
 							console.log("Registeration Info Updated : ");
-							console.log('Registeration  Info Updated Successfully !!');
+							alert('Registeration  Info Updated Successfully !!');
 							// submit_redirect();
 							}
 				});
@@ -2783,7 +2788,7 @@ function savePracticeReg()
 
 // function submit_redirect()
 // {          
-// 	        console.log("Going to doctor dashboard");
+// 	        alert("Going to doctor dashboard");
 // 	        var doc_url = 'doctor-dashboard.html';
 // 			 window.open(doc_url, "_blank" );
 // }
